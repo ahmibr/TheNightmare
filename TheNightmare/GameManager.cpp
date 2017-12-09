@@ -1,15 +1,16 @@
 #include "GameManager.h"
+#include "Enemy.h"
 Camera camera(glm::vec3(0, 10, 0)); //up in y front in x
 glm::vec3 CameraGunOffset = glm::vec3(0.0f, 0.25f, 0.0f);
- float lastX;
- float lastY;
- bool firstMouse = true;
+float lastX;
+float lastY;
+bool firstMouse = true;
 
 // timing
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
-GameManager::GameManager() 
+GameManager::GameManager()
 {
 	lastX = SCR_WIDTH / 2.0f;
 	lastY = SCR_HEIGHT / 2.0f;
@@ -75,7 +76,7 @@ void GameManager::scroll_callback(GLFWwindow* window, double xoffset, double yof
 
 
 void GameManager::LoadAllModels()
-{ 
+{
 	GameModel.resize(EndofObjects);
 	//Load and add instances of fixed objects
 	GameModel[Sky] = new GameObject("../resources/objects/0/0.obj", glm::vec3(0.0f, 0.0f, 0.0f));
@@ -86,37 +87,39 @@ void GameManager::LoadAllModels()
 	GameModel[Wall]->AddInstance();
 	GameModel[Gun] = new GameObject("../resources/objects/3/3.obj", glm::vec3(-35.0f, 4.5f, 0.0f));
 	GameModel[Gun]->AddInstance();
-	GameModel[Tree] = new GameObject("../resources/objects/10/10.obj"/*, glm::vec3(-10.0f, 0.0f, 15.0f)*/);
+	GameModel[Tree] = new GameObject("../resources/objects/4/4.obj"/*, glm::vec3(-10.0f, 0.0f, 15.0f)*/);
 	//GameModel[Tree]->AddInstance();
 	//GameModel[Tree]->AddInstance();
 	//GameModel[Tree]->Translate(glm::vec3(0.0f, 10.0f, 0.0f), 0);
 
 	//Set up array of trees
-	for (int i = 0; i < 12; i+=2)
+	for (int i = 0; i < 12; i += 2)
 	{
 		GameModel[Tree]->AddInstance();
-		GameModel[Tree]->Translate(glm::vec3(-10+4*i, 0, 25), i);
-	    GameModel[Tree]->AddInstance();
-		GameModel[Tree]->Translate(glm::vec3(-10+4*i, 0, -25), i+1);;
-		
+		GameModel[Tree]->Translate(glm::vec3(-10 + 4 * i, 0, 25), i);
+		GameModel[Tree]->AddInstance();
+		GameModel[Tree]->Translate(glm::vec3(-10 + 4 * i, 0, -25), i + 1);;
+
 	}
-	GameModel[Portal] = new GameObject("../resources/objects/9/portal/portal.obj", glm::vec3(40.0f, 0.0f, 0.0f)/*,glm::vec3(2)*/);
+	GameModel[Portal] = new GameObject("../resources/objects/5/5.obj", glm::vec3(40.0f, 0.0f, 0.0f)/*,glm::vec3(2)*/);
 	GameModel[Portal]->AddInstance();
-	GameModel[rock] = new GameObject("../resources/objects/11/11.obj"/*, glm::vec3(-10.0f, 0.0f, -15.0f)*/);
+	GameModel[rock] = new GameObject("../resources/objects/6/6.obj"/*, glm::vec3(-10.0f, 0.0f, -15.0f)*/);
 	//Puut rocks on both sides of portal
 	GameModel[rock]->AddInstance();
 	GameModel[rock]->Translate(glm::vec3(40.0f, 0.0f, 6.0f));
 	GameModel[rock]->AddInstance();
-	GameModel[rock]->Translate(glm::vec3(40.0f, 0.0f, -6.0f),1);
-	
+	GameModel[rock]->Translate(glm::vec3(40.0f, 0.0f, -6.0f), 1);
+
 	////////////////////////////////////////////////////
 	//Load Rest of objects
-	GameModel[Pika] = new GameObject("../resources/objects/4/4.obj", glm::vec3(-15.0f, 0.0f, 5.0f));
-	GameModel[Grim] = new GameObject("../resources/objects/5/5.obj", glm::vec3(10.0f, 0.0f, 10.0f));
-	GameModel[Raiden] = new GameObject("../resources/objects/6/6.obj", glm::vec3(0.0f, 0.0f, -10.0f));
-	GameModel[Donut] = new GameObject("../resources/objects/7/7.obj", glm::vec3(0.0f, 0.0f, 10.0f));
-	GameModel[Alien] = new GameObject("../resources/objects/8/8.obj", glm::vec3(0.01f, 0.01f, 0.01f)/*,glm::vec3(0.05f,0.05f,0.05f)*/);
-	GameModel[Wizard] = new GameObject("../resources/objects/12/13.obj", glm::vec3(-10.0f, 10.0f, -15.0f));
+	for (int i = Pika; i < EndofObjects; i++)
+		GameModel[i] = new Enemy( "../resources/objects/" + to_string(i) + '/' + to_string(i) + '.' + 'o' + 'b' + 'j');
+	//GameModel[Pika] = new Enemy("../resources/objects/4/4.obj");
+	//GameModel[Grim] = new Enemy("../resources/objects/5/5.obj", glm::vec3(10.0f, 0.0f, 10.0f));
+	//GameModel[Raiden] = new Enemy("../resources/objects/6/6.obj", glm::vec3(0.0f, 0.0f, -10.0f));
+	//GameModel[Donut] = new Enemy("../resources/objects/7/7.obj", glm::vec3(0.0f, 0.0f, 10.0f));
+	//GameModel[Alien] = new Enemy("../resources/objects/8/8.obj", glm::vec3(0.01f, 0.01f, 0.01f)/*,glm::vec3(0.05f,0.05f,0.05f)*/);
+	//GameModel[Wizard] = new Enemy("../resources/objects/12/13.obj", glm::vec3(-10.0f, 10.0f, -15.0f));
 }
 
 bool GameManager::Start()
@@ -125,8 +128,8 @@ bool GameManager::Start()
 	// ------------------------------
 	glfwInit(); //initialize GLFW
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3); //Set Version 
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3); 
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);  
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	// glfw window creation
 	// --------------------
@@ -141,7 +144,7 @@ bool GameManager::Start()
 	glfwMakeContextCurrent(window); //Set Current context to window
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);// Set funtion to call when change happens to framebuffer
 	glfwSetCursorPosCallback(window, mouse_callback); //change in cursor
-	glfwSetScrollCallback(window,scroll_callback); // change when scroll
+	glfwSetScrollCallback(window, scroll_callback); // change when scroll
 
 	// tell GLFW to capture our mouse
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
@@ -160,17 +163,17 @@ bool GameManager::Start()
 
 	// build and compile shaders
 	// -------------------------
-	ourShader=new Shader("../shaders/1.model_loading.vs", "../shaders/1.model_loading.fs");
+	ourShader = new Shader("../shaders/1.model_loading.vs", "../shaders/1.model_loading.fs");
 
 	// load models
 
 	LoadAllModels();
 
 	//Set up Camera Position depending on GUN
-	camera.SetCameraPosition(GameModel[Gun]->ObjectOCenter[0]+ CameraGunOffset);
+	camera.SetCameraPosition(GameModel[Gun]->ObjectOCenter[0] + CameraGunOffset);
 	//Declare camera moving space limits, Wall length
-	camera.MinSpace = GameModel[Wall]->MinOVertex[0].z+1;
-	camera.MaxSpace = GameModel[Wall]->MaxOVertex[0].z-1;
+	camera.MinSpace = GameModel[Wall]->MinOVertex[0].z + 1;
+	camera.MaxSpace = GameModel[Wall]->MaxOVertex[0].z - 1;
 	return true;
 
 }
@@ -204,10 +207,15 @@ void GameManager::GameLoop()
 		ourShader->setMat4("view", view);
 
 		//For Phase1 will add an instance of all enemies
-		for (int i = Pika; i < EndofObjects; i++)
-		{
-			GameModel[i]->AddInstance();
-		}
+		//for (int i = Pika; i < EndofObjects; i++)
+			int index=Enemy::GenerateEnemies();
+			if (index != -1)
+				GameModel[Pika+index]->AddInstance();
+			for (int i = Pika; i < EndofObjects; i++)
+			{
+				for (int j = 0; j < GameModel[i]->NumberOfInstances; j++)
+					GameModel[i]->Translate(glm::vec3(-0.01f,0.0f,0.0f), j);
+			}
 
 		//Drawww whole thing
 		for (int i = 0; i < EndofObjects; i++)
@@ -218,8 +226,6 @@ void GameManager::GameLoop()
 				GameModel[i]->Draw(*ourShader);
 			}
 		}
-
-
 
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
 		// -------------------------------------------------------------------------------

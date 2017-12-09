@@ -53,6 +53,10 @@ void GameObject::Translate(glm::vec3 tran, int index)
 	ObjectOCenter[index] = (MinOVertex[index] + MaxOVertex[index]) / glm::vec3(2);
 }
 
+void GameObject::Move()
+{
+}
+
 GameObject::~GameObject()
 {
 }

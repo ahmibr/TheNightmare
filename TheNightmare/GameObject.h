@@ -26,6 +26,7 @@ public:
 	void AddInstance(int NumberOfAddedInstances =1);
 	glm::mat4 GetModelMatrix(int index);
 	void Translate(glm::vec3 tran,int index=0);
+	virtual void Move();
 	 ~GameObject();
 };
 #endif
