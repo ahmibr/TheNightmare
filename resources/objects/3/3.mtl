@@ -1,0 +1,13 @@
+# Blender MTL File: 'scene.blend'
+# Material Count: 1
+
+newmtl Standard
+Ns 92.156863
+Ka 0.000000 0.000000 0.000000
+Kd 0.690196 0.690196 0.690196
+Ks 0.012549 0.012549 0.012549
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd awpGammaDoppler.png
