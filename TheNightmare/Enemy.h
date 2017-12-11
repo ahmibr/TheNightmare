@@ -1,12 +1,15 @@
 #pragma once
 #include "GameObject.h"
-
-class Enemy :public GameObject
+class Enemy : public GameObject
 {
+	float Health;
+	bool Moving;
+	const glm::vec3 PortalPos;
+	virtual void Move() = 0;
+protected:
+	void InitalizeEnemyPosition();
 public:
-	Enemy(string const &path, glm::vec3 IniPos = PortalPos, glm::vec3 IniScale = glm::vec3(1.0f, 1.0f, 1.0f), bool gamma = false);
-	virtual void Move();
-	static int GenerateEnemies();
-	~Enemy();
+	Enemy();
+	virtual ~Enemy()=0;
 };
 

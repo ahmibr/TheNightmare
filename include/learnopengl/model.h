@@ -259,7 +259,6 @@ private:
 		if (veclol.z > MaxVertex.z)
 			MaxVertex.z = veclol.z;
 
-
 	}
 
 };

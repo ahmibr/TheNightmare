@@ -11,4 +11,22 @@ cl : Command line warning D9002: ignoring unknown option '/EH1'
 D:\Projects\TheNightmare\include\learnopengl/shader.h(65): warning C4101: 'infoLog': unreferenced local variable
 D:\Projects\TheNightmare\include\learnopengl/shader.h(64): warning C4101: 'success': unreferenced local variable
 Enemy.cpp(7): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  GameManager.cpp
+D:\Projects\TheNightmare\include\learnopengl/shader_m.h(53): warning C4101: 'infoLog': unreferenced local variable
+D:\Projects\TheNightmare\include\learnopengl/shader_m.h(52): warning C4101: 'success': unreferenced local variable
+GameManager.cpp(56): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+GameManager.cpp(57): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+GameManager.cpp(61): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+GameManager.cpp(62): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+GameManager.cpp(64): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+GameManager.cpp(65): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+GameManager.cpp(74): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+GameManager.cpp(187): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+  GameObject.cpp
+D:\Projects\TheNightmare\include\learnopengl/shader.h(65): warning C4101: 'infoLog': unreferenced local variable
+D:\Projects\TheNightmare\include\learnopengl/shader.h(64): warning C4101: 'success': unreferenced local variable
+  Source.cpp
+D:\Projects\TheNightmare\include\learnopengl/shader_m.h(53): warning C4101: 'infoLog': unreferenced local variable
+D:\Projects\TheNightmare\include\learnopengl/shader_m.h(52): warning C4101: 'success': unreferenced local variable
+  Generating Code...
   TheNightmare.vcxproj -> D:\Projects\TheNightmare\Debug\TheNightmare.exe
