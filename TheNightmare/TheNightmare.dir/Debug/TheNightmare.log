@@ -1,14 +1,9 @@
-﻿cl : Command line warning D9002: ignoring unknown option '/EH;'
-cl : Command line warning D9002: ignoring unknown option '/EH-'
-cl : Command line warning D9002: ignoring unknown option '/EHt'
-cl : Command line warning D9002: ignoring unknown option '/EHd'
-cl : Command line warning D9002: ignoring unknown option '/EH='
-cl : Command line warning D9002: ignoring unknown option '/EH+'
-cl : Command line warning D9002: ignoring unknown option '/EH+'
-cl : Command line warning D9002: ignoring unknown option '/EH1'
-cl : Command line warning D9002: ignoring unknown option '/EH1'
-  Enemy.cpp
-D:\Projects\TheNightmare\include\learnopengl/shader.h(65): warning C4101: 'infoLog': unreferenced local variable
-D:\Projects\TheNightmare\include\learnopengl/shader.h(64): warning C4101: 'success': unreferenced local variable
-Enemy.cpp(7): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-  TheNightmare.vcxproj -> D:\Projects\TheNightmare\Debug\TheNightmare.exe
+﻿Build started 12/13/2017 8:55:43 PM.
+     1>Project "C:\Users\Ahmed\Desktop\TheNightmare\TheNightmare\TheNightmare.vcxproj" on node 2 (Build target(s)).
+     1>Link:
+         TheNightmare.vcxproj -> C:\Users\Ahmed\Desktop\TheNightmare\Debug\TheNightmare.exe
+     1>Done Building Project "C:\Users\Ahmed\Desktop\TheNightmare\TheNightmare\TheNightmare.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.11
