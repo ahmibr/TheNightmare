@@ -10,25 +10,15 @@
 
 #include <learnopengl/shader_m.h>
 #include <learnopengl/camera.h>
-#include "Enemy.h"
+#include "GameObject.h"
 
 #include <iostream>
-#include <time.h>
-#include "Allincludes.h"
 
 class GameManager
 {
-	Player*GamePlayer;
-	Sky*GameSky;
-	Floor*GameFloor;
-	Wall*GameWall;
-	Portal*GamePortal;
-	vector<Environment*>ObstaclesList;
-	vector<Enemy*> EnemyList;
+	vector<GameObject*> GameModel;
 	Shader *ourShader;
 	GLFWwindow* window;
-
-	int TimeLeft;
 
 	// settings
 	const unsigned int SCR_WIDTH = 1366;
@@ -45,6 +35,5 @@ public:
 	static void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 	void processInput(GLFWwindow *window);
 	void LoadAllModels(); 
-	void GenerateEnemies();
 };
 #endif

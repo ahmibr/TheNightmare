@@ -1,18 +1,28 @@
 #include "Enemy.h"
+#include <time.h>
+int TimeLeft;
 
+Enemy::Enemy(string const & path, glm::vec3 IniPos, glm::vec3 IniScale, bool gamma):GameObject(path,glm::vec3(35,0,0),IniScale,gamma)
+{
+	srand(time(NULL)); //Randomize seed initialization
+	TimeLeft=rand() % 40 + 150;
+}
 
-Enemy::Enemy():PortalPos(glm::vec3(35.0f,0.0f,0.0f))
+void Enemy::Move()
 {
 	
 }
 
-void Enemy::InitalizeEnemyPosition()
+int Enemy::GenerateEnemies()
 {
-	GameObject::Translate(-ObjectCenter);
-	float Objectheight = 0;
-	Objectheight = ((abs(MinVertex.y) + abs(MaxVertex.y)) / 2.0f)/**IniScale.x*/;
-	GameObject::Translate(glm::vec3(0.0f, Objectheight + 0.3 , 0.0f));
-	GameObject::Translate(PortalPos);	
+	TimeLeft--;
+	if (TimeLeft == 0)
+	{
+		TimeLeft = rand()%4000+1000;
+		return rand() % 6;
+	}
+	else
+		return -1;
 }
 
 Enemy::~Enemy()
