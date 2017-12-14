@@ -53,7 +53,7 @@ void Dounat::Move()
 				else
 				{
 					GameObject::Rotate(glm::vec3(abs(ObjectCenter.x), 0.0f, 0.0f), -2*Angle);
-					Angle = !Angle;
+					Angle = -Angle;
 					JmpTimes = 100;
 				}
 			}
