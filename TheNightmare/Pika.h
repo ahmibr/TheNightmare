@@ -6,7 +6,9 @@ class Pika : public Enemy
 	bool UpD;
 	int JmpTimes;
 	void Move();
+	static int NumberOfPikas;
 public:
+	static int GetNumberOfPikas();
 	Pika();
 	static void LoadPikaModel();
 	void Draw(Shader*ourShader);

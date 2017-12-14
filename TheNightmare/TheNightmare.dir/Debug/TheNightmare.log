@@ -1,9 +1,23 @@
-﻿Build started 12/13/2017 8:55:43 PM.
-     1>Project "C:\Users\Ahmed\Desktop\TheNightmare\TheNightmare\TheNightmare.vcxproj" on node 2 (Build target(s)).
-     1>Link:
-         TheNightmare.vcxproj -> C:\Users\Ahmed\Desktop\TheNightmare\Debug\TheNightmare.exe
-     1>Done Building Project "C:\Users\Ahmed\Desktop\TheNightmare\TheNightmare\TheNightmare.vcxproj" (Build target(s)).
-
-Build succeeded.
-
-Time Elapsed 00:00:00.11
+﻿cl : Command line warning D9002: ignoring unknown option '/EH;'
+cl : Command line warning D9002: ignoring unknown option '/EH-'
+cl : Command line warning D9002: ignoring unknown option '/EHt'
+cl : Command line warning D9002: ignoring unknown option '/EHd'
+cl : Command line warning D9002: ignoring unknown option '/EH='
+cl : Command line warning D9002: ignoring unknown option '/EH+'
+cl : Command line warning D9002: ignoring unknown option '/EH+'
+cl : Command line warning D9002: ignoring unknown option '/EH1'
+cl : Command line warning D9002: ignoring unknown option '/EH1'
+  GameManager.cpp
+D:\TheNightmare\include\learnopengl/shader_m.h(53): warning C4101: 'infoLog': unreferenced local variable
+D:\TheNightmare\include\learnopengl/shader_m.h(52): warning C4101: 'success': unreferenced local variable
+GameManager.cpp(18): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+GameManager.cpp(112): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+GameManager.cpp(113): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+GameManager.cpp(117): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+GameManager.cpp(118): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+GameManager.cpp(120): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+GameManager.cpp(121): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+GameManager.cpp(130): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+GameManager.cpp(231): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+GameManager.cpp(262): warning C4018: '<': signed/unsigned mismatch
+  TheNightmare.vcxproj -> D:\TheNightmare\Debug\TheNightmare.exe

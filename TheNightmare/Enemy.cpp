@@ -1,9 +1,12 @@
 #include "Enemy.h"
+#include <time.h>
 
 
 Enemy::Enemy():PortalPos(glm::vec3(35.0f,0.0f,0.0f))
 {
-	
+	srand(time(NULL));
+	Direction = rand() % 2;
+	HorizontalDistance = rand() % 500 + 700 + rand()%600;
 }
 
 void Enemy::InitalizeEnemyPosition()

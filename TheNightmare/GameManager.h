@@ -25,6 +25,7 @@ class GameManager
 	Portal*GamePortal;
 	vector<Environment*>ObstaclesList;
 	vector<Enemy*> EnemyList;
+	int PreviousEnemy = 0, PrevPreviousEnemy = 1;
 	Shader *ourShader;
 	GLFWwindow* window;
 
