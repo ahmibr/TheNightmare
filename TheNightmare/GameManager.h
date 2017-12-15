@@ -16,6 +16,9 @@
 #include <time.h>
 #include "Allincludes.h"
 
+#define PI 3.141592653589793
+#define G 9.8
+
 class GameManager
 {
 	Player*GamePlayer;
@@ -27,8 +30,12 @@ class GameManager
 	vector<Enemy*> EnemyList;
 	Shader *ourShader;
 	GLFWwindow* window;
-
+	bool done = false;
+	glm::vec3 intialPos;
+	Rocks *rock;
+	
 	int TimeLeft;
+	void moveRock(Rocks*& rock, glm::vec3 intialPos, float Vo, float theta, float fai);
 
 	// settings
 	const unsigned int SCR_WIDTH = 1366;
@@ -37,7 +44,6 @@ class GameManager
 public:
 	GameManager();
 	~GameManager();
-
 	bool Start();
 	void GameLoop();
     static void framebuffer_size_callback(GLFWwindow* window, int width, int height);

@@ -38,6 +38,20 @@ void GameManager::processInput(GLFWwindow *window)
 		camera.ProcessKeyboard(RIGHT, deltaTime);
 		GamePlayer->Translate(camera.Position- GamePlayer->GetCenter()- CameraGunOffset);
 	}
+
+	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS) {
+
+		if (EnemyList.size() > 0) {
+			Ray bullet(camera.Position - glm::vec3(0, 5, 0), camera.Front);
+			for (int i = 0; i < EnemyList.size();++i) {
+
+				if (EnemyList[i]->rayCast(bullet)) {
+					EnemyList.erase(EnemyList.begin() + i);
+					--i;
+				}
+			}
+		}
+	}
 }
 
 void GameManager::LoadAllModels()
@@ -130,7 +144,6 @@ void GameManager::scroll_callback(GLFWwindow* window, double xoffset, double yof
 	camera.ProcessMouseScroll(yoffset);
 }
 
-
 //void GameManager::LoadAllModels()
 //{ 
 //	GameModel.resize(EndofObjects);
@@ -209,6 +222,11 @@ bool GameManager::Start()
 
 	//GameObject::LoadAllEnemies();
 	LoadAllModels();
+	
+	Rocks::LoadRocksModel();
+	rock = new Rocks();
+	rock->Translate(glm::vec3(30.0f, 0.0f, 0.0f));
+	intialPos = rock->GetCenter();
 
 	//Set up Camera Position depending on GUN
 	/////////////////////
@@ -219,6 +237,32 @@ bool GameManager::Start()
 	camera.MaxSpace = GameWall->GetMaxVertex().z-1;
 	return true;
 
+}
+
+void GameManager::moveRock(Rocks*& rock, glm::vec3 intialPos, float Vo, float theta, float fai) {
+	if (done)
+		return;
+
+	int d = int(round(pow(Vo, 2) * sin(2 * theta * PI / 180) / G));
+	glm::vec3 center = rock->GetCenter();
+	float r = sqrt(pow((center.x - intialPos.x), 2) + pow((center.y - intialPos.y), 2) + pow((center.z - intialPos.z), 2));
+	float y = center.y - intialPos.y;
+	float u = sqrt(r*r - y*y);
+
+	if (d == int(round(u))) {
+		glm::vec3 correction = glm::vec3(center.x, intialPos.y, center.z);
+		rock->Translate(-center);
+		rock->Translate(correction);
+		done = true;
+	}
+
+	u = u + 0.01;
+	float a = tan(theta * PI / 180);
+	float b = G / (2 * pow(Vo, 2) * pow(cos(theta * PI / 180), 2));
+	float dy = (a - 2 * b * u) * 0.01;
+	rock->Translate(-center);
+	rock->Translate(glm::vec3(-0.01f, dy, 0.0f));
+	rock->Translate(center);
 }
 
 void GameManager::GameLoop()
@@ -243,7 +287,8 @@ void GameManager::GameLoop()
 
 		//enable shader before setting uniforms
 		ourShader->use();
-
+		moveRock(rock, intialPos, 25.0f, 75.0f, 0.0f);
+		
 		// view/projection transformations
 		glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
 		glm::mat4 view = camera.GetViewMatrix();
@@ -257,10 +302,11 @@ void GameManager::GameLoop()
 		GameFloor->Draw(ourShader);
 		GameWall->Draw(ourShader);
 		GamePortal->Draw(ourShader);
-
+		rock->Draw(ourShader);
 		GenerateEnemies();
-		for (int i = 0; i < EnemyList.size(); i++)
+		for (int i = 0; i < EnemyList.size(); i++) {
 			EnemyList[i]->Draw(ourShader);
+		}
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}

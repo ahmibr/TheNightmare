@@ -21,8 +21,12 @@ void Player::Draw(Shader*ourShader)
 
 void Player::Move()
 {
+
 }
 
+void Player::Shoot(glm::vec4 proj, glm::vec4 view, float mouseX, float mouseY) {
+
+}
 
 Player::~Player()
 {
