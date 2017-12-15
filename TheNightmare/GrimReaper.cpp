@@ -1,9 +1,16 @@
 #include "GrimReaper.h"
 
 Model* GrimReaper::GrimModel = NULL;
+int GrimReaper::NumberOfGrims = 0;
+
+int GrimReaper::GetNumberOfGrims()
+{
+	return NumberOfGrims;
+}
 
 GrimReaper::GrimReaper()
 {
+	NumberOfGrims++;
 	MinVertex = GrimModel->MinVertex;
 	MaxVertex = GrimModel->MaxVertex;
 	ObjectCenter = (MinVertex + MaxVertex) / 2.0f;
@@ -12,10 +19,21 @@ GrimReaper::GrimReaper()
 
 void GrimReaper::Move()
 {
+	if (HorizontalDistance != 0)
+	{
+		if (Direction == 0)
+			GameObject::Translate(glm::vec3(0.0f, 0.0f, -0.005f));
+		else
+			GameObject::Translate(glm::vec3(0.0f, 0.0f, 0.005f));
+		HorizontalDistance--;
+	}
+	else
+		GameObject::Translate(glm::vec3(-0.005f, 0.0f, 0.0f));
 }
 
 void GrimReaper::Draw(Shader*ourShader)
 {
+	GrimReaper::Move();
 	ourShader->setMat4("model", ModelMatrix);
 	GrimModel->Draw(*ourShader);
 }

@@ -43,6 +43,7 @@ public:
 	virtual void Draw(Shader*ourShader) = 0;
 	virtual void Move();
 	void Translate(glm::vec3 tran);
+	void Rotate(glm::vec3 RotationAxes, float degree);
 	virtual ~GameObject()=0;
 };
 #endif

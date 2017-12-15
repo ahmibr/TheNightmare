@@ -8,6 +8,8 @@ class Enemy : public GameObject
 	virtual void Move() = 0;
 protected:
 	void InitalizeEnemyPosition();
+	bool Direction;
+	int HorizontalDistance;
 public:
 	Enemy();
 	virtual ~Enemy()=0;

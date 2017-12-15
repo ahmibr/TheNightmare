@@ -61,50 +61,92 @@ void GameManager::LoadAllModels()
 	GameFloor = new Floor;
 	GameWall = new Wall;
 	GamePortal = new Portal;
-	//for (int i = 0; i < 12; i += 2)
-	//{
-	//	GameModel[Tree]->AddInstance();
-	//	GameModel[Tree]->Translate(glm::vec3(-10 + 4 * i, 0, 25), i);
-	//	GameModel[Tree]->AddInstance();
-	//	GameModel[Tree]->Translate(glm::vec3(-10 + 4 * i, 0, -25), i + 1);;
-	//}
+	Tree::LoadTreeModel();
+	for (int i = 0; i < 12; i += 2)
+	{
+		ObstaclesList.push_back(new Tree);
+		ObstaclesList[ObstaclesList.size()-1]->Translate(glm::vec3(-10 + 4 * i, 0, 25));
+		ObstaclesList.push_back(new Tree);
+		ObstaclesList[ObstaclesList.size() - 1] ->Translate(glm::vec3(-10 + 4 * i, 0, -25));;
+	}
 	Wizard::LoadWizardModel();
 	Raiden::LoadRaidenModel();
 	Pika::LoadPikaModel();
 	Alien::LoadAlienModel();
 	Dounat::LoadDounatModel();
 	GrimReaper::LoadGrimModel();
+	EnemyList.push_back(new Dounat);
 }
 
 void GameManager::GenerateEnemies()
 {
 	TimeLeft--;
+	bool Ok = false;
 	if (TimeLeft == 0)
 	{
 		TimeLeft = rand() % 4000 + 1000;
-		switch (rand() % 6)
+		while (!Ok)
 		{
-		case 0:
-			EnemyList.push_back(new Alien);
-			break;
-		case 1:
-			EnemyList.push_back(new Dounat);
-			break;
-		case 2:
-			EnemyList.push_back(new GrimReaper);
-			break;
-		case 3:
-			EnemyList.push_back(new Pika);
-			break;
-		case 4:
-			EnemyList.push_back(new Raiden);
-			break;
-		case 5:
-			EnemyList.push_back(new Wizard);
-			break;
-		default:
-			break;
-		} 
+			switch (rand() % 6)
+			{
+			case 0:
+				if (Alien::GetNumberOfAliens() ==0 ||((EnemyList.size() / 2) <= EnemyList.size() / Alien::GetNumberOfAliens() && PreviousEnemy!= 0 && PrevPreviousEnemy!= 0))
+				{
+					Ok = true;
+					EnemyList.push_back(new Alien);
+					PrevPreviousEnemy = PreviousEnemy;
+					PreviousEnemy = 0;
+				}
+				break;
+			case 1:
+				if (Dounat::GetNumberOfDounats() == 0 ||((EnemyList.size() / 2) <= EnemyList.size() / Dounat::GetNumberOfDounats() && PreviousEnemy != 1 && PrevPreviousEnemy != 1))
+				{
+					Ok = true;
+					EnemyList.push_back(new Dounat);
+					PrevPreviousEnemy = PreviousEnemy;
+					PreviousEnemy = 1;
+				}
+				break;
+			case 2:
+				if (GrimReaper::GetNumberOfGrims() == 0 || ((EnemyList.size() / 2) <= EnemyList.size() / GrimReaper::GetNumberOfGrims() && PreviousEnemy != 2 && PrevPreviousEnemy != 2))
+				{
+					Ok = true;
+					EnemyList.push_back(new GrimReaper);
+					PrevPreviousEnemy = PreviousEnemy;
+					PreviousEnemy = 2;
+				}
+				break;
+			case 3:
+				if (Pika::GetNumberOfPikas() == 0 || ((EnemyList.size() / 2) <= EnemyList.size() / Pika::GetNumberOfPikas() && PreviousEnemy != 3 && PrevPreviousEnemy != 3))
+				{
+					Ok = true;
+					EnemyList.push_back(new Pika);
+					PrevPreviousEnemy = PreviousEnemy;
+					PreviousEnemy = 3;
+				}
+				break;
+			case 4:
+				if (Raiden::GetNumberOfRaidens() == 0 || ((EnemyList.size() / 2) <= EnemyList.size() / Raiden::GetNumberOfRaidens() && PreviousEnemy != 4 && PrevPreviousEnemy != 4))
+				{
+					Ok = true;
+					EnemyList.push_back(new Raiden);
+					PrevPreviousEnemy = PreviousEnemy;
+					PreviousEnemy = 4;
+				}
+				break;
+			case 5:
+				if (Wizard::GetNumberOfWizards() == 0 || ((EnemyList.size() / 2) <= EnemyList.size() / Wizard::GetNumberOfWizards() && PreviousEnemy != 5 && PrevPreviousEnemy != 5))
+				{
+					Ok = true;
+					EnemyList.push_back(new Wizard);
+					PrevPreviousEnemy = PreviousEnemy;
+					PreviousEnemy = 5;
+				}
+				break;
+			default:
+				break;
+			}
+		}
 	}
 }
 
@@ -302,7 +344,12 @@ void GameManager::GameLoop()
 		GameFloor->Draw(ourShader);
 		GameWall->Draw(ourShader);
 		GamePortal->Draw(ourShader);
-		rock->Draw(ourShader);
+
+		for (int i = 0; i < ObstaclesList.size(); i++)
+		{
+			ObstaclesList[i]->Draw(ourShader);
+		}
+
 		GenerateEnemies();
 		for (int i = 0; i < EnemyList.size(); i++) {
 			EnemyList[i]->Draw(ourShader);

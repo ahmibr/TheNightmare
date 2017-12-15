@@ -1,144 +1,131 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+      <UniqueIdentifier>{D392E5A2-707F-3EAC-83D0-C2BB8D56E9A6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    <Filter Include="Environment Classes">
+      <UniqueIdentifier>{411029c3-0854-4ea6-a314-f2bcf8875d4f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    <Filter Include="Main Classes">
+      <UniqueIdentifier>{497d8af9-73ac-4a82-a4ce-8b2527e0f46f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Classes">
-      <UniqueIdentifier>{26573456-c00c-4e1b-b184-843b6e053a06}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Enemies">
-      <UniqueIdentifier>{974f269e-8e1b-4ea6-be84-13ae26e64768}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ُEnvironmentElements">
-      <UniqueIdentifier>{7c4b5556-6bb3-4b4d-b48c-3ef689dbaac8}</UniqueIdentifier>
+    <Filter Include="Enemy Classes">
+      <UniqueIdentifier>{9f0462c4-0bec-4c1f-b0a8-44b67061abad}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source.cpp">
+    <ClCompile Include="glad.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="glad.c">
+    <ClCompile Include="Source.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="stb_image.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject.cpp">
-      <Filter>Classes</Filter>
-    </ClCompile>
     <ClCompile Include="GameManager.cpp">
-      <Filter>Classes</Filter>
+      <Filter>Main Classes</Filter>
     </ClCompile>
-    <ClCompile Include="Alien.cpp">
-      <Filter>Enemies</Filter>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Main Classes</Filter>
     </ClCompile>
-    <ClCompile Include="Dounat.cpp">
-      <Filter>Enemies</Filter>
-    </ClCompile>
-    <ClCompile Include="GrimReaper.cpp">
-      <Filter>Enemies</Filter>
-    </ClCompile>
-    <ClCompile Include="Pika.cpp">
-      <Filter>Enemies</Filter>
-    </ClCompile>
-    <ClCompile Include="Raiden.cpp">
-      <Filter>Enemies</Filter>
-    </ClCompile>
-    <ClCompile Include="Wizard.cpp">
-      <Filter>Enemies</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy.cpp">
-      <Filter>Classes</Filter>
+    <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="Player.cpp">
+      <Filter>Main Classes</Filter>
     </ClCompile>
     <ClCompile Include="Environment.cpp">
-      <Filter>Classes</Filter>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>Classes</Filter>
-    </ClCompile>
-    <ClCompile Include="Sky.cpp">
-      <Filter>ُEnvironmentElements</Filter>
+      <Filter>Environment Classes</Filter>
     </ClCompile>
     <ClCompile Include="Floor.cpp">
-      <Filter>ُEnvironmentElements</Filter>
-    </ClCompile>
-    <ClCompile Include="Rocks.cpp">
-      <Filter>ُEnvironmentElements</Filter>
-    </ClCompile>
-    <ClCompile Include="Tree.cpp">
-      <Filter>ُEnvironmentElements</Filter>
-    </ClCompile>
-    <ClCompile Include="Wall.cpp">
-      <Filter>ُEnvironmentElements</Filter>
+      <Filter>Environment Classes</Filter>
     </ClCompile>
     <ClCompile Include="Portal.cpp">
-      <Filter>ُEnvironmentElements</Filter>
+      <Filter>Environment Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Rocks.cpp">
+      <Filter>Environment Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Sky.cpp">
+      <Filter>Environment Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Tree.cpp">
+      <Filter>Environment Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Wall.cpp">
+      <Filter>Environment Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Alien.cpp">
+      <Filter>Enemy Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Dounat.cpp">
+      <Filter>Enemy Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="GrimReaper.cpp">
+      <Filter>Enemy Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Pika.cpp">
+      <Filter>Enemy Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Raiden.cpp">
+      <Filter>Enemy Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Wizard.cpp">
+      <Filter>Enemy Classes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Enemy.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Wizard.h">
-      <Filter>Enemies</Filter>
-    </ClInclude>
-    <ClInclude Include="Raiden.h">
-      <Filter>Enemies</Filter>
-    </ClInclude>
-    <ClInclude Include="Pika.h">
-      <Filter>Enemies</Filter>
-    </ClInclude>
-    <ClInclude Include="GrimReaper.h">
-      <Filter>Enemies</Filter>
-    </ClInclude>
-    <ClInclude Include="Dounat.h">
-      <Filter>Enemies</Filter>
-    </ClInclude>
-    <ClInclude Include="Alien.h">
-      <Filter>Enemies</Filter>
+    <ClInclude Include="GameManager.h">
+      <Filter>Main Classes</Filter>
     </ClInclude>
     <ClInclude Include="GameObject.h">
-      <Filter>Header Files</Filter>
+      <Filter>Main Classes</Filter>
     </ClInclude>
-    <ClInclude Include="GameManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Allincludes.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Enemy.h" />
+    <ClInclude Include="Player.h">
+      <Filter>Main Classes</Filter>
     </ClInclude>
     <ClInclude Include="Environment.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Sky.h">
-      <Filter>ُEnvironmentElements</Filter>
-    </ClInclude>
-    <ClInclude Include="Wall.h">
-      <Filter>ُEnvironmentElements</Filter>
-    </ClInclude>
-    <ClInclude Include="Tree.h">
-      <Filter>ُEnvironmentElements</Filter>
-    </ClInclude>
-    <ClInclude Include="Rocks.h">
-      <Filter>ُEnvironmentElements</Filter>
+      <Filter>Environment Classes</Filter>
     </ClInclude>
     <ClInclude Include="Floor.h">
-      <Filter>ُEnvironmentElements</Filter>
+      <Filter>Environment Classes</Filter>
     </ClInclude>
     <ClInclude Include="Portal.h">
-      <Filter>ُEnvironmentElements</Filter>
+      <Filter>Environment Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Rocks.h">
+      <Filter>Environment Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Sky.h">
+      <Filter>Environment Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Tree.h">
+      <Filter>Environment Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Wall.h">
+      <Filter>Environment Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Allincludes.h">
+      <Filter>Main Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Alien.h">
+      <Filter>Enemy Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Dounat.h">
+      <Filter>Enemy Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="GrimReaper.h">
+      <Filter>Enemy Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Pika.h">
+      <Filter>Enemy Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Raiden.h">
+      <Filter>Enemy Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Wizard.h">
+      <Filter>Enemy Classes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

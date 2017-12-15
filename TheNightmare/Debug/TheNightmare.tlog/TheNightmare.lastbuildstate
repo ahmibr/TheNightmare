@@ -1,2 +1,6 @@
 #TargetFrameworkVersion=v4.0:PlatformToolSet=v140:EnableManagedIncrementalBuild=false:VCToolArchitecture=Native32Bit
+<<<<<<< HEAD
 Debug|Win32|G:\graphics_project\TheNightmare\|
+=======
+Debug|Win32|C:\Users\Ahmed\Desktop\TheNightmare\|
+>>>>>>> e786d67d9637b2e2a0077d1a6b77cdb016f87bd6
