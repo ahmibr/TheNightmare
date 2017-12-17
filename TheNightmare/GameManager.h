@@ -28,6 +28,11 @@ class GameManager
 	int PreviousEnemy = 0, PrevPreviousEnemy = 1;
 	Shader *ourShader;
 	GLFWwindow* window;
+	int Menus;
+	Model*MainMenu;
+	Model*LoadingMenu;
+	Model*GameOver;
+	Light*LightArray;
 
 	int TimeLeft;
 
@@ -46,6 +51,7 @@ public:
 	static void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 	void processInput(GLFWwindow *window);
 	void LoadAllModels(); 
+	void SetLighting();
 	void GenerateEnemies();
 };
 #endif

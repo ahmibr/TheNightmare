@@ -2,9 +2,6 @@
 #include "Enemy.h"
 class Alien : public Enemy
 {
-	float Angle;
-	float PreviousAngle;
-	float InvrseAngle;
 	int RotationTime;
 	bool RightLeft;
 	static Model*AlienModel;

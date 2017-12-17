@@ -1,4 +1,4 @@
-# Blender MTL File: 'None'
+# Blender MTL File: 'scene.blend'
 # Material Count: 1
 
 newmtl Standard
@@ -11,3 +11,4 @@ Ni 1.000000
 d 1.000000
 illum 2
 map_Kd awpGammaDoppler.png
+Ks 1.0 1.0 1.0

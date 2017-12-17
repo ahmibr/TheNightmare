@@ -9,6 +9,7 @@ public:
 	Player();
 	void Draw(Shader*ourShader);
 	void Move();
+	bool Dead();
 	~Player();
 };
 

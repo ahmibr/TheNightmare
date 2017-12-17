@@ -14,7 +14,7 @@ Wizard::Wizard()
 	UpD = true;
 	JmpTimes = 0;
 	FirstTime = true;
-	MaxHeight = 700;
+	MaxHeight = 300;
 	MinVertex = WizardModel->MinVertex;
 	MaxVertex = WizardModel->MaxVertex;
 	ObjectCenter = (MinVertex + MaxVertex) / 2.0f;
@@ -25,45 +25,75 @@ void Wizard::Move()
 {
 	if (FirstTime)
 	{
-		GameObject::Translate(glm::vec3(0.0f, 0.01f, 0));
+		GameObject::Translate(glm::vec3(0.0f, 0.03f, 0));
 		JmpTimes++;
 		if (JmpTimes == MaxHeight)
 		{
 			JmpTimes = 0;
+			if (Direction == 0)
+				GameObject::Rotate(glm::vec3(0.0f, ObjectCenter.y, 0.0f), -90);
+			else
+				GameObject::Rotate(glm::vec3(0.0f, ObjectCenter.y, 0.0f), 90);
 			FirstTime = false;
 		}
 	}
 	else
 	{
-		if (UpD)
+		if (HorizontalDistance > 0)
 		{
-			if (HorizontalDistance != 0)
+			if (UpD)
 			{
 				if (Direction == 0)
-					GameObject::Translate(glm::vec3(0.0f, 0.0f, -0.005f));
+					GameObject::Translate(glm::vec3(0.02f, 0.01f, 0.0f));
 				else
-					GameObject::Translate(glm::vec3(0.0f, 0.0f, 0.005f));
+					GameObject::Translate(glm::vec3(-0.02f, 0.01f, 0.0f));
 				HorizontalDistance--;
+				JmpTimes++;
 			}
 			else
-				GameObject::Translate(glm::vec3(-0.005f, 0.005f, 0));
-			JmpTimes++;
+			{
+				if (Direction == 0)
+					GameObject::Translate(glm::vec3(0.02f, -0.01f, 0.0f));
+				else
+					GameObject::Translate(glm::vec3(-0.02f, -0.01f, 0.0f));
+				HorizontalDistance--;
+
+				JmpTimes++;
+			}
+			if (JmpTimes == 40)
+			{
+				UpD = !UpD;
+				JmpTimes = 0;
+			}
 		}
 		else
 		{
-			if (HorizontalDistance != 0)
+			if (HorizontalDistance == 0)
 			{
-				GameObject::Translate(glm::vec3(0.0f, 0.0f, -0.005f));
-				HorizontalDistance--;
+				if (Direction == 0)
+					GameObject::Rotate(glm::vec3(0.0f, ObjectCenter.y, 0.0f), 90);
+				else
+					GameObject::Rotate(glm::vec3(0.0f, ObjectCenter.y, 0.0f), -90);
+				HorizontalDistance = -1;
+			}
+
+
+			if (UpD)
+			{
+				GameObject::Translate(glm::vec3(-0.01f, 0.01f, 0));
+				JmpTimes++;
 			}
 			else
-				GameObject::Translate(glm::vec3(-0.005f, -0.005f, 0));
-			JmpTimes++;
-		}
-		if (JmpTimes == 100)
-		{
-			UpD = !UpD;
-			JmpTimes = 0;
+			{
+				GameObject::Translate(glm::vec3(-0.01f, -0.01f, 0));
+				JmpTimes++;
+			}
+			if (JmpTimes == 40)
+			{
+				UpD = !UpD;
+				JmpTimes = 0;
+			}
+
 		}
 	}
 }

@@ -19,43 +19,62 @@ Dounat::Dounat()
 	MaxVertex = DounatModel->MaxVertex;
 	ObjectCenter = (MinVertex + MaxVertex) / 2.0f;
 	Enemy::InitalizeEnemyPosition();
-	//GameObject::Rotate(glm::vec3(0.0f, ObjectCenter.y, 0.0f), 90);
 }
 
 void Dounat::Move()
 {
 	if (HorizontalDistance != 0)
 	{
-		if (Direction == 0)
-			GameObject::Translate(glm::vec3(0.0f, 0.0f, -0.005f));
-		else
-			GameObject::Translate(glm::vec3(0.0f, 0.0f, 0.005f));
-		HorizontalDistance--;
-	}
-	else
-	{
 		if (FirstTime && JmpTimes != 20)
 		{
 			GameObject::Translate(glm::vec3(0.0f, 0.01f, 0.0f));
 			JmpTimes++;
 		}
+		else
 		{
 			FirstTime = false;
-			GameObject::Translate(glm::vec3(-0.01f, 0.0f, 0.0f));
+			if (Angle == 0)
+			{
+				JmpTimes = 1;
+				if (Direction == 0)
+					GameObject::Rotate(glm::vec3(0.0f, ObjectCenter.y, 0.0f), -90);
+				else
+					GameObject::Rotate(glm::vec3(0.0f, ObjectCenter.y, 0.0f), 90);
+				Angle = 30;
+			}
+
+			if (Direction == 0)
+				GameObject::Translate(glm::vec3(-0.04f, 0.0f, 0.0f));
+			else
+				GameObject::Translate(glm::vec3(0.04f, 0.0f, 0.0f));
+
+			HorizontalDistance--;
+			if (HorizontalDistance == 0)
+			{
+				if (Direction == 0)
+					GameObject::Rotate(glm::vec3(0.0f, ObjectCenter.y, 0.0f), 90);
+				else
+					GameObject::Rotate(glm::vec3(0.0f, ObjectCenter.y, 0.0f), -90);
+				Angle = 0;
+			}
+		}
+	}
+	else
+	{
+		if (Angle == 0)
+		{
+			GameObject::Rotate(glm::vec3(abs(ObjectCenter.x), 0.0f, 0.0f), -30);
+			Angle = -30;
+		}
+		else
+		{
+			FirstTime = false;
+			GameObject::Translate(glm::vec3(-0.02f, 0.0f, 0.0f));
 			if (JmpTimes == 0)
 			{
-				if (Angle == 0)
-				{
-					GameObject::Rotate(glm::vec3(abs(ObjectCenter.x), 0.0f, 0.0f), -30);
-					Angle = -30;
-					JmpTimes = 1;
-				}
-				else
-				{
-					GameObject::Rotate(glm::vec3(abs(ObjectCenter.x), 0.0f, 0.0f), -2*Angle);
-					Angle = -Angle;
-					JmpTimes = 100;
-				}
+				GameObject::Rotate(glm::vec3(abs(ObjectCenter.x), 0.0f, 0.0f), -2 * Angle);
+				Angle = -Angle;
+				JmpTimes = 100;
 			}
 			JmpTimes--;
 		}
