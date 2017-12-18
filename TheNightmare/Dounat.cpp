@@ -14,7 +14,7 @@ Dounat::Dounat()
 	JmpTimes = 0;
 	FirstTime = true;
 	Angle = 0;
-	PreviousAngle = -30;
+	PreviousAngle = -20;
 	MinVertex = DounatModel->MinVertex;
 	MaxVertex = DounatModel->MaxVertex;
 	ObjectCenter = (MinVertex + MaxVertex) / 2.0f;
@@ -40,7 +40,7 @@ void Dounat::Move()
 					GameObject::Rotate(glm::vec3(0.0f, ObjectCenter.y, 0.0f), -90);
 				else
 					GameObject::Rotate(glm::vec3(0.0f, ObjectCenter.y, 0.0f), 90);
-				Angle = 30;
+				Angle = 20;
 			}
 
 			if (Direction == 0)
@@ -63,8 +63,8 @@ void Dounat::Move()
 	{
 		if (Angle == 0)
 		{
-			GameObject::Rotate(glm::vec3(abs(ObjectCenter.x), 0.0f, 0.0f), -30);
-			Angle = -30;
+			GameObject::Rotate(glm::vec3(abs(ObjectCenter.x), 0.0f, 0.0f), -20);
+			Angle = -20;
 		}
 		else
 		{
@@ -74,7 +74,7 @@ void Dounat::Move()
 			{
 				GameObject::Rotate(glm::vec3(abs(ObjectCenter.x), 0.0f, 0.0f), -2 * Angle);
 				Angle = -Angle;
-				JmpTimes = 100;
+				JmpTimes = 50;
 			}
 			JmpTimes--;
 		}

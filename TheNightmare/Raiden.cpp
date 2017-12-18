@@ -48,14 +48,12 @@ void Raiden::Move()
 			{
 				ArmModelMatrix = glm::rotate(ArmModelMatrix, glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 				ArmModelMatrix = glm::translate(ArmModelMatrix, glm::vec3(0.0f, -Objectheight / 2.0f, 0.0f));
-				/*mciSendString("open \"Gunshot.mp3\" type mpegvideo alias mp3", NULL, 0, NULL);
-				mciSendString("play mp3", NULL, 0, NULL);*/
 			}
 			Shooting--;
 		}
 		else
 		{
-			GameObject::Translate(glm::vec3(-0.03f, 0.0f, 0.0f));
+			GameObject::Translate(glm::vec3(-0.1f, 0.0f, 0.0f));
 			ArmModelMatrix = ModelMatrix;
 		}
 		

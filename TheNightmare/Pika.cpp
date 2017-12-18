@@ -31,18 +31,18 @@ void Pika::Move()
 		if (UpD)
 		{
 			if (Direction == 0)
-				GameObject::Translate(glm::vec3(0.02f, 0.01f, 0.0f));
+				GameObject::Translate(glm::vec3(0.09f, 0.01f, 0.0f));
 			else
-				GameObject::Translate(glm::vec3(-0.02f, 0.01f, 0.0f));
+				GameObject::Translate(glm::vec3(-0.09f, 0.01f, 0.0f));
 			HorizontalDistance--;
 			JmpTimes++;
 		}
 		else
 		{
 			if (Direction == 0)
-				GameObject::Translate(glm::vec3(0.02f, -0.01f, 0.0f));
+				GameObject::Translate(glm::vec3(0.09f, -0.01f, 0.0f));
 			else
-				GameObject::Translate(glm::vec3(-0.02f, -0.01f, 0.0f));
+				GameObject::Translate(glm::vec3(-0.09f, -0.01f, 0.0f));
 			HorizontalDistance--;
 
 			JmpTimes++;
@@ -67,12 +67,12 @@ void Pika::Move()
 
 		if (UpD)
 		{
-			GameObject::Translate(glm::vec3(-0.01f, 0.01f, 0));
+			GameObject::Translate(glm::vec3(-0.08f, 0.01f, 0));
 			JmpTimes++;
 		}
 		else
 		{
-			GameObject::Translate(glm::vec3(-0.01f, -0.01f, 0));
+			GameObject::Translate(glm::vec3(-0.08f, -0.01f, 0));
 			JmpTimes++;
 		}
 		if (JmpTimes == 40)

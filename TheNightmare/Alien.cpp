@@ -31,11 +31,11 @@ void Alien::Move()
 	{
 		if (RightLeft) //Rotating Right
 		{
-			GameObject::Rotate(glm::vec3(0.0f, ObjectCenter.y, 0.0f), 30);
+			GameObject::Rotate(glm::vec3(0.0f, ObjectCenter.y, 0.0f), 25);
 		}
 		else //Rotating Left
 		{
-			GameObject::Rotate(glm::vec3(0.0f, ObjectCenter.y + 10.0f, 0.0f), -30);
+			GameObject::Rotate(glm::vec3(0.0f, ObjectCenter.y + 10.0f, 0.0f), -25);
 			if (HorizontalDistance != 0)
 			{
 				GameObject::Translate(glm::vec3(-2.0f, 0.0f, 0.0f));
@@ -51,7 +51,7 @@ void Alien::Move()
 				GameObject::Rotate(glm::vec3(0.0f, ObjectCenter.y, 0.0f), -90);
 			HorizontalDistance = -1;
 		}
-		RotationTime = 150;
+		RotationTime = 20;
 		RightLeft = !RightLeft;
 	}
 
@@ -59,7 +59,7 @@ void Alien::Move()
 	{
 		HorizontalDistance--;
 		if (HorizontalDistance == 0)
-			RotationTime = 50;
+			RotationTime = 20;
 	}
 
 

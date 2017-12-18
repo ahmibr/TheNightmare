@@ -24,14 +24,15 @@ class GameManager
 	Wall*GameWall;
 	Portal*GamePortal;
 	vector<Environment*>ObstaclesList;
+	glm::vec3 MinAvaliableSpace;
+	glm::vec3 MaxAvaliableSpace;
 	vector<Enemy*> EnemyList;
+	int NumberOfTotalEnemies;
 	int PreviousEnemy = 0, PrevPreviousEnemy = 1;
 	Shader *ourShader;
 	GLFWwindow* window;
-	int Menus;
-	Model*MainMenu;
-	Model*LoadingMenu;
-	Model*GameOver;
+	static int Menus;
+	Model*MenusArray[4];
 	Light*LightArray;
 
 	int TimeLeft;
@@ -53,5 +54,6 @@ public:
 	void LoadAllModels(); 
 	void SetLighting();
 	void GenerateEnemies();
+	void GenerateObstacles();
 };
 #endif

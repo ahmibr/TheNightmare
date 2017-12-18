@@ -19,16 +19,7 @@ GrimReaper::GrimReaper()
 
 void GrimReaper::Move()
 {
-	if (HorizontalDistance != 0)
-	{
-		if (Direction == 0)
-			GameObject::Translate(glm::vec3(0.0f, 0.0f, -0.02f));
-		else
-			GameObject::Translate(glm::vec3(0.0f, 0.0f, 0.02f));
-		HorizontalDistance--;
-	}
-	else
-		GameObject::Translate(glm::vec3(-0.02f, 0.0f, 0.0f));
+		GameObject::Translate(glm::vec3(-0.05f, 0.0f, 0.0f));
 }
 
 void GrimReaper::Draw(Shader*ourShader)

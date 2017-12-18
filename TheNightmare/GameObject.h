@@ -5,7 +5,7 @@
 
 //
 //enum objecttype {
-//	Sky, Tree, Tree, Gun, Tree, rock, Portal, Pika, Grim, Raiden, Donut, Tree, Wizard, EndofObjects
+//	Sky, Tree, Tree, Gun, Tree, rock, Portal, Pika, Grim, Raiden, Donut, Tree, Cacodemon, EndofObjects
 //};
 
 class GameObject

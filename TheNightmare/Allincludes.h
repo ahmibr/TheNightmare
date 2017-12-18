@@ -5,7 +5,7 @@
 #include "GrimReaper.h"
 #include "Pika.h"
 #include "Raiden.h"
-#include "Wizard.h"
+#include "Cacodemon.h"
 #include "Player.h"
 #include "Environment.h"
 #include "Sky.h"
