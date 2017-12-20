@@ -9,14 +9,14 @@ Player::Player():GunModel("../resources/objects/Gun/Gun.obj")
 	InitPos = glm::vec3(-35.0f, 8.5f, 0.0f);
 	GameObject::Translate(-ObjectCenter);
 	GameObject::Translate(InitPos);
-	//ModelMatrix = glm::translate(ModelMatrix, -ObjectCenter);
-	//ModelMatrix = glm::translate(ModelMatrix,InitPos);
+	playerHealth = 7000;
 }
 
 void Player::Draw(Shader*ourShader)
 {
 	ourShader->setMat4("model", ModelMatrix);
 	GunModel.Draw(*ourShader);
+	playerHealth--;
 }
 
 void Player::Move()
@@ -24,9 +24,14 @@ void Player::Move()
 
 }
 
-void Player::Shoot(glm::vec4 proj, glm::vec4 view, float mouseX, float mouseY) {
+// void Player::Shoot(glm::vec4 proj, glm::vec4 view, float mouseX, float mouseY) {
 
+// }
+bool Player::Dead()
+{
+	return (playerHealth > 0) ? 0:1;
 }
+
 
 Player::~Player()
 {

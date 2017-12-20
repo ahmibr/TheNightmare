@@ -17,7 +17,11 @@ Pika::Pika()
 	MaxVertex = PikaModel->MaxVertex;
 	ObjectCenter = (MinVertex + MaxVertex) / 2.0f;
 	Enemy::InitalizeEnemyPosition();
-	GameObject::Rotate(glm::vec3(0.0f, ObjectCenter.y, 0.0f), 90);
+
+	if (Direction == 0)
+		GameObject::Rotate(glm::vec3(0.0f, ObjectCenter.y, 0.0f), -90);
+	else
+		GameObject::Rotate(glm::vec3(0.0f, ObjectCenter.y, 0.0f), 90);
 }
 
 void Pika::Move()
@@ -27,18 +31,18 @@ void Pika::Move()
 		if (UpD)
 		{
 			if (Direction == 0)
-				GameObject::Translate(glm::vec3(-0.005f, 0.01f, 0.0f));
+				GameObject::Translate(glm::vec3(0.09f, 0.01f, 0.0f));
 			else
-				GameObject::Translate(glm::vec3(0.005f, 0.01f, 0.0f));
+				GameObject::Translate(glm::vec3(-0.09f, 0.01f, 0.0f));
 			HorizontalDistance--;
 			JmpTimes++;
 		}
 		else
 		{
 			if (Direction == 0)
-				GameObject::Translate(glm::vec3(-0.005f, -0.01f, 0.0f));
+				GameObject::Translate(glm::vec3(0.09f, -0.01f, 0.0f));
 			else
-				GameObject::Translate(glm::vec3(0.005f, -0.01f, 0.0f));
+				GameObject::Translate(glm::vec3(-0.09f, -0.01f, 0.0f));
 			HorizontalDistance--;
 
 			JmpTimes++;
@@ -53,19 +57,22 @@ void Pika::Move()
 	{
 		if (HorizontalDistance == 0)
 		{
-			GameObject::Rotate(glm::vec3(0.0f, ObjectCenter.y, 0.0f), -90);
+			if (Direction == 0)
+				GameObject::Rotate(glm::vec3(0.0f, ObjectCenter.y, 0.0f), 90);
+			else
+				GameObject::Rotate(glm::vec3(0.0f, ObjectCenter.y, 0.0f), -90);
 			HorizontalDistance = -1;
 		}
 
 
 		if (UpD)
 		{
-			GameObject::Translate(glm::vec3(-0.01f, 0.01f, 0));
+			GameObject::Translate(glm::vec3(-0.08f, 0.01f, 0));
 			JmpTimes++;
 		}
 		else
 		{
-			GameObject::Translate(glm::vec3(-0.01f, -0.01f, 0));
+			GameObject::Translate(glm::vec3(-0.08f, -0.01f, 0));
 			JmpTimes++;
 		}
 		if (JmpTimes == 40)

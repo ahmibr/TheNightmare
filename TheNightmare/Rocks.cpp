@@ -21,7 +21,6 @@ void Rocks::LoadRocksModel()
 	RocksModel = new Model("../resources/objects/Rocks/Rocks.obj");
 }
 
-
 Rocks::~Rocks()
 {
 }

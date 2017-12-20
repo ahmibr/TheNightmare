@@ -1,4 +1,8 @@
 #include "Raiden.h"
+#include <Mmsystem.h>
+#include <mciapi.h>
+//these two headers are already included in the <Windows.h> header
+#pragma comment(lib, "Winmm.lib")
 
 Model* Raiden::RaidenModel = NULL;
 int Raiden::NumberOfRaidens = 0;
@@ -15,6 +19,7 @@ Raiden::Raiden()
 	MaxVertex = RaidenModel->MaxVertex;
 	ObjectCenter = (MinVertex + MaxVertex) / 2.0f;
 	Enemy::InitalizeEnemyPosition();
+	ArmModelMatrix = ModelMatrix;
 }
 
 void Raiden::Move()
@@ -22,13 +27,37 @@ void Raiden::Move()
 	if (HorizontalDistance != 0)
 	{
 		if (Direction == 0)
-			GameObject::Translate(glm::vec3(0.0f, 0.0f, -0.005f));
+			GameObject::Translate(glm::vec3(0.0f, 0.0f, -0.02f));
 		else
-			GameObject::Translate(glm::vec3(0.0f, 0.0f, 0.005f));
+			GameObject::Translate(glm::vec3(0.0f, 0.0f, 0.02f));
+		ArmModelMatrix = ModelMatrix;
 		HorizontalDistance--;
+		if (HorizontalDistance == 0)
+			Shooting = ShootingTime;
 	}
 	else
-		GameObject::Translate(glm::vec3(-0.005f, 0.0f, 0.0f));
+	{
+		if (Shooting > 0)
+		{
+			if (Shooting == ShootingTime)
+			{
+				ArmModelMatrix = glm::translate(ArmModelMatrix, glm::vec3(0.0f, Objectheight / 2.0f, 0.0f));
+				ArmModelMatrix = glm::rotate(ArmModelMatrix, glm::radians(-90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+			}
+			else if (Shooting == 1)
+			{
+				ArmModelMatrix = glm::rotate(ArmModelMatrix, glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+				ArmModelMatrix = glm::translate(ArmModelMatrix, glm::vec3(0.0f, -Objectheight / 2.0f, 0.0f));
+			}
+			Shooting--;
+		}
+		else
+		{
+			GameObject::Translate(glm::vec3(-0.1f, 0.0f, 0.0f));
+			ArmModelMatrix = ModelMatrix;
+		}
+		
+	}
 }
 
 void Raiden::LoadRaidenModel()
@@ -40,7 +69,9 @@ void Raiden::Draw(Shader * ourShader)
 {
 	Raiden::Move();
 	ourShader->setMat4("model", ModelMatrix);
-	RaidenModel->Draw(*ourShader);
+	RaidenModel->meshes[1].Draw(*ourShader);
+	ourShader->setMat4("model", ArmModelMatrix);
+	RaidenModel->meshes[0].Draw(*ourShader);
 }
 
 

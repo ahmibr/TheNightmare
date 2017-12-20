@@ -27,16 +27,20 @@ class GameManager
 	Wall*GameWall;
 	Portal*GamePortal;
 	vector<Environment*>ObstaclesList;
+	glm::vec3 MinAvaliableSpace;
+	glm::vec3 MaxAvaliableSpace;
 	vector<Enemy*> EnemyList;
+	int NumberOfTotalEnemies;
 	int PreviousEnemy = 0, PrevPreviousEnemy = 1;
 	Shader *ourShader;
 	GLFWwindow* window;
-	bool done = false;
-	glm::vec3 intialPos;
 	Rocks *rock;
 	
+	static int Menus;
+	Model*MenusArray[4];
+	Light*LightArray;
+
 	int TimeLeft;
-	void moveRock(Rocks*& rock, glm::vec3 intialPos, float Vo, float theta, float fai);
 
 	// settings
 	const unsigned int SCR_WIDTH = 1366;
@@ -52,6 +56,8 @@ public:
 	static void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 	void processInput(GLFWwindow *window);
 	void LoadAllModels(); 
+	void SetLighting();
 	void GenerateEnemies();
+	void GenerateObstacles();
 };
 #endif

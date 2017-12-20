@@ -2,21 +2,29 @@
 
 Camera camera(glm::vec3(0, 10, 0)); //up in y front in x
 glm::vec3 CameraGunOffset = glm::vec3(0.0f, 0.25f, 0.0f);
- float lastX;
- float lastY;
- bool firstMouse = true;
+float lastX;
+float lastY;
+bool firstMouse = true;
 
 // timing
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
-GameManager::GameManager() 
+int GameManager::Menus = 0;
+
+GameManager::GameManager()
 {
 	lastX = SCR_WIDTH / 2.0f;
 	lastY = SCR_HEIGHT / 2.0f;
 
 	srand(time(NULL)); //Randomize seed initialization
 	TimeLeft = rand() % 40 + 150;
+
+	NumberOfTotalEnemies = 0;
+	Menus = 701;
+
+	for (int i = 0; i < 4; i++)
+		MenusArray[i] = NULL;
 }
 
 
@@ -36,7 +44,7 @@ void GameManager::processInput(GLFWwindow *window)
 	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
 	{
 		camera.ProcessKeyboard(RIGHT, deltaTime);
-		GamePlayer->Translate(camera.Position- GamePlayer->GetCenter()- CameraGunOffset);
+		GamePlayer->Translate(camera.Position - GamePlayer->GetCenter() - CameraGunOffset);
 	}
 
 	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS) {
@@ -61,51 +69,73 @@ void GameManager::LoadAllModels()
 	GameFloor = new Floor;
 	GameWall = new Wall;
 	GamePortal = new Portal;
+	MenusArray[0] = new Model("../resources/objects/Menus/mainmenu.obj");
+	MenusArray[1] = new Model("../resources/objects/Menus/Loading.obj");
+	MenusArray[2] = new Model("../resources/objects/Menus/YouWin.obj");
+	MenusArray[3] = new Model("../resources/objects/Menus/GameOver.obj");
 	Tree::LoadTreeModel();
+	Rocks::LoadRocksModel();
+
 	for (int i = 0; i < 12; i += 2)
 	{
 		ObstaclesList.push_back(new Tree);
-		ObstaclesList[ObstaclesList.size()-1]->Translate(glm::vec3(-10 + 4 * i, 0, 25));
+		ObstaclesList[ObstaclesList.size() - 1]->Translate(glm::vec3(-10 + 4 * i, 0, 25));
 		ObstaclesList.push_back(new Tree);
-		ObstaclesList[ObstaclesList.size() - 1] ->Translate(glm::vec3(-10 + 4 * i, 0, -25));;
+		ObstaclesList[ObstaclesList.size() - 1]->Translate(glm::vec3(-10 + 4 * i, 0, -25));
 	}
-	Wizard::LoadWizardModel();
+	MinAvaliableSpace = glm::vec3(-10, 0, -25);
+	MinAvaliableSpace.z += (ObstaclesList[0]->GetMaxVertex().z - ObstaclesList[0]->GetMinVertex().z) / 2;
+	MaxAvaliableSpace = glm::vec3(30, 0, 25);
+	MaxAvaliableSpace.z -= (ObstaclesList[0]->GetMaxVertex().z - ObstaclesList[0]->GetMinVertex().z) / 2;
+	Cacodemon::LoadCacodemonModel();
 	Raiden::LoadRaidenModel();
 	Pika::LoadPikaModel();
 	Alien::LoadAlienModel();
 	Dounat::LoadDounatModel();
 	GrimReaper::LoadGrimModel();
-	EnemyList.push_back(new Dounat);
+	Light::LoadLightModel();
+	LightArray = new Light[3];
+	LightArray[0].Translate(glm::vec3(0.0f, 0.0f, 10.0f));
+	LightArray[1].Translate(glm::vec3(0.0f, 0.0f, -10.0f));
+	LightArray[2].Translate(glm::vec3(-10.0f, 0.0f, 0.0f));
+
+	GenerateObstacles();
+
 }
 
 void GameManager::GenerateEnemies()
 {
 	TimeLeft--;
 	bool Ok = false;
+	int Loops = 0;
 	if (TimeLeft == 0)
 	{
-		TimeLeft = rand() % 4000 + 1000;
+		TimeLeft = rand() % 400 + 225;
 		while (!Ok)
 		{
 			switch (rand() % 6)
 			{
 			case 0:
-				if (Alien::GetNumberOfAliens() ==0 ||((EnemyList.size() / 2) <= EnemyList.size() / Alien::GetNumberOfAliens() && PreviousEnemy!= 0 && PrevPreviousEnemy!= 0))
+				if (Alien::GetNumberOfAliens() == 0 || ((EnemyList.size() / 2) <= EnemyList.size() / Alien::GetNumberOfAliens() && PreviousEnemy != 0 && PrevPreviousEnemy != 0))
 				{
 					Ok = true;
 					EnemyList.push_back(new Alien);
 					PrevPreviousEnemy = PreviousEnemy;
 					PreviousEnemy = 0;
 				}
+				else
+					Loops++;
 				break;
 			case 1:
-				if (Dounat::GetNumberOfDounats() == 0 ||((EnemyList.size() / 2) <= EnemyList.size() / Dounat::GetNumberOfDounats() && PreviousEnemy != 1 && PrevPreviousEnemy != 1))
+				if (Dounat::GetNumberOfDounats() == 0 || ((EnemyList.size() / 2) <= EnemyList.size() / Dounat::GetNumberOfDounats() && PreviousEnemy != 1 && PrevPreviousEnemy != 1))
 				{
 					Ok = true;
 					EnemyList.push_back(new Dounat);
 					PrevPreviousEnemy = PreviousEnemy;
 					PreviousEnemy = 1;
 				}
+				else
+					Loops++;
 				break;
 			case 2:
 				if (GrimReaper::GetNumberOfGrims() == 0 || ((EnemyList.size() / 2) <= EnemyList.size() / GrimReaper::GetNumberOfGrims() && PreviousEnemy != 2 && PrevPreviousEnemy != 2))
@@ -115,6 +145,8 @@ void GameManager::GenerateEnemies()
 					PrevPreviousEnemy = PreviousEnemy;
 					PreviousEnemy = 2;
 				}
+				else
+					Loops++;
 				break;
 			case 3:
 				if (Pika::GetNumberOfPikas() == 0 || ((EnemyList.size() / 2) <= EnemyList.size() / Pika::GetNumberOfPikas() && PreviousEnemy != 3 && PrevPreviousEnemy != 3))
@@ -124,6 +156,8 @@ void GameManager::GenerateEnemies()
 					PrevPreviousEnemy = PreviousEnemy;
 					PreviousEnemy = 3;
 				}
+				else
+					Loops++;
 				break;
 			case 4:
 				if (Raiden::GetNumberOfRaidens() == 0 || ((EnemyList.size() / 2) <= EnemyList.size() / Raiden::GetNumberOfRaidens() && PreviousEnemy != 4 && PrevPreviousEnemy != 4))
@@ -133,19 +167,103 @@ void GameManager::GenerateEnemies()
 					PrevPreviousEnemy = PreviousEnemy;
 					PreviousEnemy = 4;
 				}
+				else
+					Loops++;
 				break;
 			case 5:
-				if (Wizard::GetNumberOfWizards() == 0 || ((EnemyList.size() / 2) <= EnemyList.size() / Wizard::GetNumberOfWizards() && PreviousEnemy != 5 && PrevPreviousEnemy != 5))
+				if (Cacodemon::GetNumberOfCacodemons() == 0 || ((EnemyList.size() / 2) <= EnemyList.size() / Cacodemon::GetNumberOfCacodemons() && PreviousEnemy != 5 && PrevPreviousEnemy != 5))
 				{
 					Ok = true;
-					EnemyList.push_back(new Wizard);
+					EnemyList.push_back(new Cacodemon);
 					PrevPreviousEnemy = PreviousEnemy;
 					PreviousEnemy = 5;
 				}
+				else
+					Loops++;
 				break;
 			default:
 				break;
 			}
+			if (Loops == 50)
+			{
+				switch (rand() % 6)
+				{
+				case 0:
+					EnemyList.push_back(new Alien);
+					PrevPreviousEnemy = PreviousEnemy;
+					PreviousEnemy = 0;
+					break;
+				case 1:
+					EnemyList.push_back(new Dounat);
+					PrevPreviousEnemy = PreviousEnemy;
+					PreviousEnemy = 1;
+					break;
+				case 2:
+					EnemyList.push_back(new GrimReaper);
+					PrevPreviousEnemy = PreviousEnemy;
+					PreviousEnemy = 2;
+					break;
+				case 3:
+					EnemyList.push_back(new Pika);
+					PrevPreviousEnemy = PreviousEnemy;
+					PreviousEnemy = 3;
+					break;
+				case 4:
+					EnemyList.push_back(new Raiden);
+					PrevPreviousEnemy = PreviousEnemy;
+					PreviousEnemy = 4;
+					break;
+				case 5:
+					EnemyList.push_back(new Cacodemon);
+					PrevPreviousEnemy = PreviousEnemy;
+					PreviousEnemy = 5;
+					break;
+				}
+
+				Ok = true;
+			}
+
+		}
+		NumberOfTotalEnemies++;
+		ObstaclesList.erase(ObstaclesList.begin()+14);
+		GenerateObstacles();
+	}
+
+}
+
+void GameManager::GenerateObstacles()
+{
+	float x, z, MaxX, MinX, MinZ, MaxZ;
+	while (ObstaclesList.size() != 22)
+	{
+		x = (rand() % (int)MaxAvaliableSpace.x)*((rand() % 2) ? 1 : -1);
+		z = (rand() % (int)MaxAvaliableSpace.z)*((rand() % 2) ? 1 : -1);
+		int i = 0;
+		for (i = 0; i < EnemyList.size(); i++)
+		{
+			MaxX = EnemyList[i]->GetCenter().x + (EnemyList[i]->GetMaxVertex().x - EnemyList[i]->GetMinVertex().x) / 2.0f;
+			MinX = EnemyList[i]->GetCenter().x - (EnemyList[i]->GetMaxVertex().x - EnemyList[i]->GetMinVertex().x) / 2.0f;
+			MaxZ = EnemyList[i]->GetCenter().z + (EnemyList[i]->GetMaxVertex().z - EnemyList[i]->GetMinVertex().z) / 2.0f;
+			MinZ = EnemyList[i]->GetCenter().z - (EnemyList[i]->GetMaxVertex().z - EnemyList[i]->GetMinVertex().z) / 2.0f;
+			if (!((x > MinX || x<MaxX) &&( z>MinZ || z < MaxZ)))
+				break;
+		}
+		int j = 12;
+		for (j = 12; j < ObstaclesList.size(); j++)
+		{
+			MaxX = ObstaclesList[j]->GetCenter().x + (ObstaclesList[j]->GetMaxVertex().x - ObstaclesList[j]->GetMinVertex().x) / 2.0f;
+			MinX = ObstaclesList[j]->GetCenter().x - (ObstaclesList[j]->GetMaxVertex().x - ObstaclesList[j]->GetMinVertex().x) / 2.0f;
+			MaxZ = ObstaclesList[j]->GetCenter().z + (ObstaclesList[j]->GetMaxVertex().z - ObstaclesList[j]->GetMinVertex().z) / 2.0f;
+			MinZ = ObstaclesList[j]->GetCenter().z - (ObstaclesList[j]->GetMaxVertex().z - ObstaclesList[j]->GetMinVertex().z) / 2.0f;
+			if (!((x > MinX || x<MaxX) && (z>MinZ || z < MaxZ)))
+				break;
+		}
+
+
+		if (i == EnemyList.size() && j == ObstaclesList.size())
+		{
+			ObstaclesList.push_back(new Rocks);
+			ObstaclesList[ObstaclesList.size() - 1]->Translate(glm::vec3(x, 0, z));
 		}
 	}
 }
@@ -176,7 +294,8 @@ void GameManager::mouse_callback(GLFWwindow* window, double xpos, double ypos)
 	lastX = xpos;
 	lastY = ypos;
 
-	camera.ProcessMouseMovement(xoffset, yoffset);
+	if (Menus == 0)
+		camera.ProcessMouseMovement(xoffset, yoffset);
 }
 
 // glfw: whenever the mouse scroll wheel scrolls, this callback is called
@@ -223,11 +342,19 @@ bool GameManager::Start()
 	// ------------------------------
 	glfwInit(); //initialize GLFW
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3); //Set Version 
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3); 
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);  
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	// glfw window creation
 	// --------------------
+
+	GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+	const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+	glfwWindowHint(GLFW_RED_BITS, mode->redBits);
+	glfwWindowHint(GLFW_GREEN_BITS, mode->greenBits);
+	glfwWindowHint(GLFW_BLUE_BITS, mode->blueBits);
+	glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
+	//window = glfwCreateWindow(mode->width, mode->height, "TheNightmare", monitor, NULL);
 	window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "TheNightmare", NULL, NULL);
 	if (window == NULL)
 	{
@@ -239,7 +366,7 @@ bool GameManager::Start()
 	glfwMakeContextCurrent(window); //Set Current context to window
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);// Set funtion to call when change happens to framebuffer
 	glfwSetCursorPosCallback(window, mouse_callback); //change in cursor
-	glfwSetScrollCallback(window,scroll_callback); // change when scroll
+	glfwSetScrollCallback(window, scroll_callback); // change when scroll
 
 	// tell GLFW to capture our mouse
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
@@ -258,58 +385,35 @@ bool GameManager::Start()
 
 	// build and compile shaders
 	// -------------------------
-	ourShader=new Shader("../shaders/1.model_loading.vs", "../shaders/1.model_loading.fs");
+	ourShader = new Shader("../shaders/1.model_loading.vs", "../shaders/Lighting.fs");
 
 	// load models
-
-	//GameObject::LoadAllEnemies();
 	LoadAllModels();
 	
 	Rocks::LoadRocksModel();
 	rock = new Rocks();
-	rock->Translate(glm::vec3(30.0f, 0.0f, 0.0f));
-	intialPos = rock->GetCenter();
+	rock->Translate(glm::vec3(0.0f, 0.0f, 0.0f));
 
 	//Set up Camera Position depending on GUN
 	/////////////////////
-	camera.SetCameraPosition(GamePlayer->GetCenter()+ CameraGunOffset);
+	camera.SetCameraPosition(GamePlayer->GetCenter() + CameraGunOffset);
 	//Declare camera moving space limits, Tree length
 	/////////////////////
-	camera.MinSpace = GameWall->GetMinVertex().z+1;
-	camera.MaxSpace = GameWall->GetMaxVertex().z-1;
+	camera.MinSpace = GameWall->GetMinVertex().z + 1;
+	camera.MaxSpace = GameWall->GetMaxVertex().z - 1;
+
+	ourShader->use();
+	ourShader->setInt("material.diffuse", 0);
+	ourShader->setInt("material.specular", 1);
+
+
 	return true;
 
 }
 
-void GameManager::moveRock(Rocks*& rock, glm::vec3 intialPos, float Vo, float theta, float fai) {
-	if (done)
-		return;
-
-	int d = int(round(pow(Vo, 2) * sin(2 * theta * PI / 180) / G));
-	glm::vec3 center = rock->GetCenter();
-	float r = sqrt(pow((center.x - intialPos.x), 2) + pow((center.y - intialPos.y), 2) + pow((center.z - intialPos.z), 2));
-	float y = center.y - intialPos.y;
-	float u = sqrt(r*r - y*y);
-
-	if (d == int(round(u))) {
-		glm::vec3 correction = glm::vec3(center.x, intialPos.y, center.z);
-		rock->Translate(-center);
-		rock->Translate(correction);
-		done = true;
-	}
-
-	u = u + 0.01;
-	float a = tan(theta * PI / 180);
-	float b = G / (2 * pow(Vo, 2) * pow(cos(theta * PI / 180), 2));
-	float dy = (a - 2 * b * u) * 0.01;
-	rock->Translate(-center);
-	rock->Translate(glm::vec3(-0.01f, dy, 0.0f));
-	rock->Translate(center);
-}
-
 void GameManager::GameLoop()
 {
-	
+
 	while (!glfwWindowShouldClose(window))
 	{
 		// per-frame time logic
@@ -329,25 +433,98 @@ void GameManager::GameLoop()
 
 		//enable shader before setting uniforms
 		ourShader->use();
-		moveRock(rock, intialPos, 25.0f, 75.0f, 0.0f);
 		
+
+
+		SetLighting();
+
 		// view/projection transformations
 		glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
 		glm::mat4 view = camera.GetViewMatrix();
 		ourShader->setMat4("projection", projection);
 		ourShader->setMat4("view", view);
 
+
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
 		// -------------------------------------------------------------------------------
-		GameSky->Draw(ourShader);
-		GamePlayer->Draw(ourShader);
-		GameFloor->Draw(ourShader);
-		GameWall->Draw(ourShader);
-		GamePortal->Draw(ourShader);
 
-		for (int i = 0; i < ObstaclesList.size(); i++)
+		if (Menus > 0)
 		{
-			ObstaclesList[i]->Draw(ourShader);
+			ourShader->setInt("la", 1);
+			glm::mat4 modelmatrix;
+			ourShader->setMat4("model", modelmatrix);
+			if (Menus >= 700)
+				MenusArray[0]->Draw(*ourShader);
+
+			if (Menus == 701)
+			{
+				mciSendString("open \"../resources/sounds/MainMenu.mp3\" type mpegvideo alias mp3", NULL, 0, NULL);
+				mciSendString("play mp3 repeat", NULL, 0, NULL);
+				Menus--;
+			}
+
+			if (glfwGetKey(window, GLFW_KEY_ENTER) == GLFW_PRESS)
+			{
+				mciSendString("stop mp3", NULL, 0, NULL);
+				Menus--;
+			}
+			else
+				if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+					return;
+			if (Menus < 700)
+			{
+				MenusArray[1]->Draw(*ourShader);
+				Menus--;
+			}
+
+			if (Menus == 0)
+			{
+				delete MenusArray[1];
+				delete MenusArray[0];
+			}
+		}
+		else if (GamePlayer->Dead())
+		{
+			ourShader->setInt("la", 1);
+			glm::mat4 modelmatrix;
+			ourShader->setMat4("model", modelmatrix);
+			MenusArray[3]->Draw(*ourShader);
+			Menus--;
+			if (Menus == -10000)
+				return;
+		}
+		else if (NumberOfTotalEnemies == 20 && EnemyList.empty())
+		{
+			ourShader->setInt("la", 1);
+			glm::mat4 modelmatrix;
+			ourShader->setMat4("model", modelmatrix);
+			MenusArray[2]->Draw(*ourShader);
+			Menus--;
+			if (Menus == -10000)
+				return;
+		}
+		else
+		{
+			ourShader->setInt("la", 0);
+
+			GameSky->Draw(ourShader);
+			GamePlayer->Draw(ourShader);
+			GameFloor->Draw(ourShader);
+			GameWall->Draw(ourShader);
+			GamePortal->Draw(ourShader);
+
+			LightArray[0].Draw(ourShader);
+			LightArray[1].Draw(ourShader);
+			LightArray[2].Draw(ourShader);
+
+			for (int i = 0; i < ObstaclesList.size(); i++)
+				ObstaclesList[i]->Draw(ourShader);
+
+			if (NumberOfTotalEnemies < 20)
+				GenerateEnemies();
+
+			for (int i = 0; i < EnemyList.size(); i++)
+				EnemyList[i]->Draw(ourShader);
 		}
 
 		GenerateEnemies();
@@ -359,6 +536,61 @@ void GameManager::GameLoop()
 	}
 
 }
+
+void GameManager::SetLighting()
+{
+	// be sure to activate shader when setting uniforms/drawing objects
+	ourShader->use();
+	ourShader->setVec3("viewPos", camera.Position);
+	ourShader->setVec3("material.specular", 0.5f, 0.5f, 0.5f);
+	ourShader->setFloat("material.shininess", 64.0f);
+	//Set Directional Lighting-------------------------------------------------
+	ourShader->setVec3("dirLight.direction", 0, 40, 0);
+	ourShader->setVec3("dirLight.ambient", 0.02f, 0.02f, 0.02f);
+	ourShader->setVec3("dirLight.diffuse", 0.03f, 0.03f, 0.03f);
+	ourShader->setVec3("dirLight.specular", 0.0f, 0.0f, 0.0f);
+
+	ourShader->setVec3("spotLights[0].position", 35, 24, 0);
+	ourShader->setVec3("spotLights[0].direction", 0.2, -1, 0);
+	ourShader->setFloat("spotLights[0].cutOff", glm::cos(glm::radians(12.5f)));
+	ourShader->setFloat("spotLights[0].outerCutOff", glm::cos(glm::radians(17.5f)));
+	ourShader->setVec3("spotLights[0].ambient", 0.25f, 0.25f, 0.25f);
+	ourShader->setVec3("spotLights[0].diffuse", 0.5f, 0.5f, 0.5f);
+	ourShader->setVec3("spotLights[0].specular", 1.0f, 1.0f, 1.0f);
+	ourShader->setFloat("spotLights[0].constant", 1.0f);
+	ourShader->setFloat("spotLights[0].linear", 0.027f);
+	ourShader->setFloat("spotLights[0].quadratic", 0.0028f);
+	////Set fourth Spot Light---------------------------------------------------- Shooter
+	ourShader->setVec3("pointLights[0].position", LightArray[0].GetCenter().x - 0.2, LightArray[0].GetCenter().y - ((LightArray[0].GetMaxVertex() - LightArray[0].GetMinVertex()) / glm::vec3(2)).y, LightArray[0].GetCenter().z);
+	ourShader->setVec3("pointLights[0].direction", 0.0, -1, 0);
+	ourShader->setVec3("pointLights[0].ambient", 0.25f, 0.25f, 0.25f);
+	ourShader->setVec3("pointLights[0].diffuse", 0.5f, 0.5f, 0.5f);
+	ourShader->setVec3("pointLights[0].specular", 1.0f, 1.0f, 1.0f);
+	ourShader->setFloat("pointLights[0].constant", 1.0f);
+	ourShader->setFloat("pointLights[0].linear", 0.045f);
+	ourShader->setFloat("pointLights[0].quadratic", 0.0075f);
+	////Set fourth Spot Light---------------------------------------------------- Shooter
+	ourShader->setVec3("pointLights[1].position", LightArray[1].GetCenter().x - 0.2, LightArray[1].GetCenter().y - ((LightArray[1].GetMaxVertex() - LightArray[1].GetMinVertex()) / glm::vec3(2)).y, LightArray[1].GetCenter().z);
+	ourShader->setVec3("pointLights[1].direction", 0.0, -1, 0);
+	ourShader->setVec3("pointLights[1].ambient", 0.25f, 0.25f, 0.25f);
+	ourShader->setVec3("pointLights[1].diffuse", 0.5f, 0.5f, 0.5f);
+	ourShader->setVec3("pointLights[1].specular", 1.0f, 1.0f, 1.0f);
+	ourShader->setFloat("pointLights[1].constant", 1.0f);
+	ourShader->setFloat("pointLights[1].linear", 0.045f);
+	ourShader->setFloat("pointLights[1].quadratic", 0.0075f);
+	////Set fourth Spot Light---------------------------------------------------- Shooter
+	ourShader->setVec3("pointLights[2].position", LightArray[2].GetCenter().x - 0.2, LightArray[2].GetCenter().y - ((LightArray[2].GetMaxVertex() - LightArray[2].GetMinVertex()) / glm::vec3(2)).y, LightArray[2].GetCenter().z);
+	ourShader->setVec3("pointLights[2].direction", 0.0, -1, 0);
+	ourShader->setVec3("pointLights[2].ambient", 0.25f, 0.25f, 0.25f);
+	ourShader->setVec3("pointLights[2].diffuse", 0.5f, 0.5f, 0.5f);
+	ourShader->setVec3("pointLights[2].specular", 1.0f, 1.0f, 1.0f);
+	ourShader->setFloat("pointLights[2].constant", 1.0f);
+	ourShader->setFloat("pointLights[2].linear", 0.045f);
+	ourShader->setFloat("pointLights[2].quadratic", 0.0075f);
+
+
+}
+
 GameManager::~GameManager()
 {
 	delete GamePlayer;

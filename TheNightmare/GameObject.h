@@ -5,7 +5,7 @@
 #define EPSILON 0.00001
 //
 //enum objecttype {
-//	Sky, Tree, Tree, Gun, Tree, rock, Portal, Pika, Grim, Raiden, Donut, Tree, Wizard, EndofObjects
+//	Sky, Tree, Tree, Gun, Tree, rock, Portal, Pika, Grim, Raiden, Donut, Tree, Cacodemon, EndofObjects
 //};
 
 struct Ray {

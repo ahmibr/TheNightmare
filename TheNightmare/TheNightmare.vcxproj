@@ -271,6 +271,7 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="GrimReaper.cpp" />
+    <ClCompile Include="Light.cpp" />
     <ClCompile Include="Pika.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Portal.cpp" />
@@ -281,7 +282,7 @@
     <ClCompile Include="stb_image.cpp" />
     <ClCompile Include="Tree.cpp" />
     <ClCompile Include="Wall.cpp" />
-    <ClCompile Include="Wizard.cpp" />
+    <ClCompile Include="Cacodemon.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Alien.h" />
@@ -293,6 +294,7 @@
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GrimReaper.h" />
+    <ClInclude Include="Light.h" />
     <ClInclude Include="Pika.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Portal.h" />
@@ -301,7 +303,7 @@
     <ClInclude Include="Sky.h" />
     <ClInclude Include="Tree.h" />
     <ClInclude Include="Wall.h" />
-    <ClInclude Include="Wizard.h" />
+    <ClInclude Include="Cacodemon.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

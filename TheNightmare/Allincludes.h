@@ -5,7 +5,7 @@
 #include "GrimReaper.h"
 #include "Pika.h"
 #include "Raiden.h"
-#include "Wizard.h"
+#include "Cacodemon.h"
 #include "Player.h"
 #include "Environment.h"
 #include "Sky.h"
@@ -14,3 +14,8 @@
 #include "Floor.h"
 #include "Wall.h"
 #include "Portal.h"
+#include "Light.h"
+#include <Mmsystem.h>
+#include <mciapi.h>
+//these two headers are already included in the <Windows.h> header
+#pragma comment(lib, "Winmm.lib")

@@ -70,7 +70,10 @@
     <ClCompile Include="Raiden.cpp">
       <Filter>Enemy Classes</Filter>
     </ClCompile>
-    <ClCompile Include="Wizard.cpp">
+    <ClCompile Include="Light.cpp">
+      <Filter>Environment Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Cacodemon.cpp">
       <Filter>Enemy Classes</Filter>
     </ClCompile>
   </ItemGroup>
@@ -124,7 +127,10 @@
     <ClInclude Include="Raiden.h">
       <Filter>Enemy Classes</Filter>
     </ClInclude>
-    <ClInclude Include="Wizard.h">
+    <ClInclude Include="Light.h">
+      <Filter>Environment Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Cacodemon.h">
       <Filter>Enemy Classes</Filter>
     </ClInclude>
   </ItemGroup>
