@@ -25,6 +25,14 @@ GameManager::GameManager()
 
 	for (int i = 0; i < 4; i++)
 		MenusArray[i] = NULL;
+
+	//Dividing scene into 16 blocks
+	/*SceneGraph.resize(4);
+	for (int i = 0; i < 4; i++)
+		SceneGraph[i].resize(4);*/
+
+	GameObject::InitializeScene();
+
 }
 
 
@@ -69,6 +77,8 @@ void GameManager::LoadAllModels()
 		ObstaclesList.push_back(new Tree);
 		ObstaclesList[ObstaclesList.size() - 1]->Translate(glm::vec3(-10 + 4 * i, 0, -25));
 	}
+	//for (int i = 0; i < ObstaclesList.size(); i++)
+	//	AddToSceneG(ObstaclesList[i]);
 	MinAvaliableSpace = glm::vec3(-10, 0, -25);
 	MinAvaliableSpace.z += (ObstaclesList[0]->GetMaxVertex().z - ObstaclesList[0]->GetMinVertex().z) / 2;
 	MaxAvaliableSpace = glm::vec3(30, 0, 25);
@@ -91,6 +101,7 @@ void GameManager::LoadAllModels()
 
 void GameManager::GenerateEnemies()
 {
+	Enemy* temp;
 	TimeLeft--;
 	bool Ok = false;
 	int Loops = 0;
@@ -105,7 +116,9 @@ void GameManager::GenerateEnemies()
 				if (Alien::GetNumberOfAliens() == 0 || ((EnemyList.size() / 2) <= EnemyList.size() / Alien::GetNumberOfAliens() && PreviousEnemy != 0 && PrevPreviousEnemy != 0))
 				{
 					Ok = true;
-					EnemyList.push_back(new Alien);
+					temp = new Alien;
+					EnemyList.push_back(temp);
+				//	AddToSceneG(temp);
 					PrevPreviousEnemy = PreviousEnemy;
 					PreviousEnemy = 0;
 				}
@@ -116,7 +129,9 @@ void GameManager::GenerateEnemies()
 				if (Dounat::GetNumberOfDounats() == 0 || ((EnemyList.size() / 2) <= EnemyList.size() / Dounat::GetNumberOfDounats() && PreviousEnemy != 1 && PrevPreviousEnemy != 1))
 				{
 					Ok = true;
-					EnemyList.push_back(new Dounat);
+					temp = new Dounat;
+					EnemyList.push_back(temp);
+				//	AddToSceneG(temp);
 					PrevPreviousEnemy = PreviousEnemy;
 					PreviousEnemy = 1;
 				}
@@ -127,7 +142,9 @@ void GameManager::GenerateEnemies()
 				if (GrimReaper::GetNumberOfGrims() == 0 || ((EnemyList.size() / 2) <= EnemyList.size() / GrimReaper::GetNumberOfGrims() && PreviousEnemy != 2 && PrevPreviousEnemy != 2))
 				{
 					Ok = true;
-					EnemyList.push_back(new GrimReaper);
+					temp = new GrimReaper;
+					EnemyList.push_back(temp);
+				//	AddToSceneG(temp);
 					PrevPreviousEnemy = PreviousEnemy;
 					PreviousEnemy = 2;
 				}
@@ -138,7 +155,9 @@ void GameManager::GenerateEnemies()
 				if (Pika::GetNumberOfPikas() == 0 || ((EnemyList.size() / 2) <= EnemyList.size() / Pika::GetNumberOfPikas() && PreviousEnemy != 3 && PrevPreviousEnemy != 3))
 				{
 					Ok = true;
-					EnemyList.push_back(new Pika);
+					temp = new Pika;
+					EnemyList.push_back(temp);
+					//AddToSceneG(temp);
 					PrevPreviousEnemy = PreviousEnemy;
 					PreviousEnemy = 3;
 				}
@@ -149,7 +168,9 @@ void GameManager::GenerateEnemies()
 				if (Raiden::GetNumberOfRaidens() == 0 || ((EnemyList.size() / 2) <= EnemyList.size() / Raiden::GetNumberOfRaidens() && PreviousEnemy != 4 && PrevPreviousEnemy != 4))
 				{
 					Ok = true;
-					EnemyList.push_back(new Raiden);
+					temp = new Raiden;
+					EnemyList.push_back(temp);
+					//AddToSceneG(temp);
 					PrevPreviousEnemy = PreviousEnemy;
 					PreviousEnemy = 4;
 				}
@@ -160,7 +181,9 @@ void GameManager::GenerateEnemies()
 				if (Cacodemon::GetNumberOfCacodemons() == 0 || ((EnemyList.size() / 2) <= EnemyList.size() / Cacodemon::GetNumberOfCacodemons() && PreviousEnemy != 5 && PrevPreviousEnemy != 5))
 				{
 					Ok = true;
-					EnemyList.push_back(new Cacodemon);
+					temp = new Cacodemon;
+					EnemyList.push_back(temp);
+				//	AddToSceneG(temp);
 					PrevPreviousEnemy = PreviousEnemy;
 					PreviousEnemy = 5;
 				}
@@ -175,32 +198,44 @@ void GameManager::GenerateEnemies()
 				switch (rand() % 6)
 				{
 				case 0:
-					EnemyList.push_back(new Alien);
+     				temp = new Alien;
+					EnemyList.push_back(temp);
+				//	AddToSceneG(temp);
 					PrevPreviousEnemy = PreviousEnemy;
 					PreviousEnemy = 0;
 					break;
 				case 1:
-					EnemyList.push_back(new Dounat);
+					temp = new Dounat;
+					EnemyList.push_back(temp);
+				//	AddToSceneG(temp);
 					PrevPreviousEnemy = PreviousEnemy;
 					PreviousEnemy = 1;
 					break;
 				case 2:
-					EnemyList.push_back(new GrimReaper);
+					temp = new GrimReaper;
+					EnemyList.push_back(temp);
+				//	AddToSceneG(temp);
 					PrevPreviousEnemy = PreviousEnemy;
 					PreviousEnemy = 2;
 					break;
 				case 3:
-					EnemyList.push_back(new Pika);
+					temp = new Pika;
+					EnemyList.push_back(temp);
+				//	AddToSceneG(temp);
 					PrevPreviousEnemy = PreviousEnemy;
 					PreviousEnemy = 3;
 					break;
 				case 4:
-					EnemyList.push_back(new Raiden);
+					temp = new Raiden;
+					EnemyList.push_back(temp);
+				//	AddToSceneG(temp);
 					PrevPreviousEnemy = PreviousEnemy;
 					PreviousEnemy = 4;
 					break;
 				case 5:
-					EnemyList.push_back(new Cacodemon);
+					temp = new Cacodemon;
+					EnemyList.push_back(temp);
+					//AddToSceneG(temp);
 					PrevPreviousEnemy = PreviousEnemy;
 					PreviousEnemy = 5;
 					break;
@@ -211,7 +246,7 @@ void GameManager::GenerateEnemies()
 
 		}
 		NumberOfTotalEnemies++;
-		ObstaclesList.erase(ObstaclesList.begin()+14);
+		//ObstaclesList.erase(ObstaclesList.begin()+14);
 		GenerateObstacles();
 	}
 
@@ -250,6 +285,7 @@ void GameManager::GenerateObstacles()
 		{
 			ObstaclesList.push_back(new Rocks);
 			ObstaclesList[ObstaclesList.size() - 1]->Translate(glm::vec3(x, 0, z));
+			//AddToSceneG(ObstaclesList[ObstaclesList.size() - 1]);
 		}
 	}
 }
@@ -357,6 +393,7 @@ bool GameManager::Start()
 	ourShader->use();
 	ourShader->setInt("material.diffuse", 0);
 	ourShader->setInt("material.specular", 1);
+	GameObject::InitializeScene();
 
 
 	return true;
@@ -507,7 +544,7 @@ void GameManager::SetLighting()
 	ourShader->setFloat("spotLights[0].constant", 1.0f);
 	ourShader->setFloat("spotLights[0].linear", 0.027f);
 	ourShader->setFloat("spotLights[0].quadratic", 0.0028f);
-	////Set fourth Spot Light---------------------------------------------------- Shooter
+	////Set first point ligt---------------------------------------------------- 
 	ourShader->setVec3("pointLights[0].position", LightArray[0].GetCenter().x - 0.2, LightArray[0].GetCenter().y - ((LightArray[0].GetMaxVertex() - LightArray[0].GetMinVertex()) / glm::vec3(2)).y, LightArray[0].GetCenter().z);
 	ourShader->setVec3("pointLights[0].direction", 0.0, -1, 0);
 	ourShader->setVec3("pointLights[0].ambient", 0.25f, 0.25f, 0.25f);
@@ -516,7 +553,7 @@ void GameManager::SetLighting()
 	ourShader->setFloat("pointLights[0].constant", 1.0f);
 	ourShader->setFloat("pointLights[0].linear", 0.045f);
 	ourShader->setFloat("pointLights[0].quadratic", 0.0075f);
-	////Set fourth Spot Light---------------------------------------------------- Shooter
+	////Set second Light---------------------------------------------------- 
 	ourShader->setVec3("pointLights[1].position", LightArray[1].GetCenter().x - 0.2, LightArray[1].GetCenter().y - ((LightArray[1].GetMaxVertex() - LightArray[1].GetMinVertex()) / glm::vec3(2)).y, LightArray[1].GetCenter().z);
 	ourShader->setVec3("pointLights[1].direction", 0.0, -1, 0);
 	ourShader->setVec3("pointLights[1].ambient", 0.25f, 0.25f, 0.25f);
@@ -525,7 +562,7 @@ void GameManager::SetLighting()
 	ourShader->setFloat("pointLights[1].constant", 1.0f);
 	ourShader->setFloat("pointLights[1].linear", 0.045f);
 	ourShader->setFloat("pointLights[1].quadratic", 0.0075f);
-	////Set fourth Spot Light---------------------------------------------------- Shooter
+	////Set third point Light---------------------------------------------------- 
 	ourShader->setVec3("pointLights[2].position", LightArray[2].GetCenter().x - 0.2, LightArray[2].GetCenter().y - ((LightArray[2].GetMaxVertex() - LightArray[2].GetMinVertex()) / glm::vec3(2)).y, LightArray[2].GetCenter().z);
 	ourShader->setVec3("pointLights[2].direction", 0.0, -1, 0);
 	ourShader->setVec3("pointLights[2].ambient", 0.25f, 0.25f, 0.25f);
@@ -543,3 +580,19 @@ GameManager::~GameManager()
 	delete GamePlayer;
 	glfwTerminate();
 }
+
+
+//void GameManager::AddToSceneG(GameObject* o)
+//{
+//	//our scene boundries hypothetically are 80x60 each block is 15x20 in z,y
+//
+//	//we'd need to make special checks (collision with sky & wall)
+//
+//	int z = (o->GetCenter().z) / 15;
+//	int y = (o->GetCenter().y) / 20;
+//	z += 2;
+//	y += 2;
+//
+//	SceneGraph[z][y].push_back(o);
+//
+//}

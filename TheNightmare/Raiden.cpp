@@ -17,13 +17,18 @@ Raiden::Raiden()
 	NumberOfRaidens++;
 	MinVertex = RaidenModel->MinVertex;
 	MaxVertex = RaidenModel->MaxVertex;
+	glm::vec3 diff = (MinVertex - MaxVertex) / glm::vec3(2);
+	Myradius = sqrt(pow(diff.x, 2) + pow(diff.y, 2) + pow(diff.z, 2));
 	ObjectCenter = (MinVertex + MaxVertex) / 2.0f;
 	Enemy::InitalizeEnemyPosition();
 	ArmModelMatrix = ModelMatrix;
+	CalculateGraphIndex();
+	AddToSceneG(this);
 }
 
 void Raiden::Move()
 {
+	GameObject::RemoveFromSG(this);
 	if (HorizontalDistance != 0)
 	{
 		if (Direction == 0)
@@ -58,6 +63,8 @@ void Raiden::Move()
 		}
 		
 	}
+
+	CheckMoveValidity();
 }
 
 void Raiden::LoadRaidenModel()

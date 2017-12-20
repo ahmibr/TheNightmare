@@ -15,6 +15,8 @@ Alien::Alien()
 	RotationTime = 40;
 	MinVertex = AlienModel->MinVertex;
 	MaxVertex = AlienModel->MaxVertex;
+	glm::vec3 diff = (MinVertex - MaxVertex) / glm::vec3(2);
+	Myradius= sqrt(pow(diff.x, 2) + pow(diff.y, 2) + pow(diff.z, 2));
 	ObjectCenter = (MinVertex + MaxVertex) / 2.0f;
 	Enemy::InitalizeEnemyPosition();
 
@@ -22,10 +24,15 @@ Alien::Alien()
 		GameObject::Rotate(glm::vec3(0.0f, ObjectCenter.y, 0.0f), -90);
 	else
 		GameObject::Rotate(glm::vec3(0.0f, ObjectCenter.y, 0.0f), 90);
+	CalculateGraphIndex();
+	AddToSceneG(this);
+
 }
 
 void Alien::Move()
 {
+	GameObject::RemoveFromSG(this);
+	
 	
 	if (RotationTime == 0)
 	{
@@ -64,7 +71,7 @@ void Alien::Move()
 
 
 	RotationTime--;
-
+CheckMoveValidity();
 }
 
 void Alien::Draw(Shader*ourShader)

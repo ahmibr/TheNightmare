@@ -13,13 +13,20 @@ GrimReaper::GrimReaper()
 	NumberOfGrims++;
 	MinVertex = GrimModel->MinVertex;
 	MaxVertex = GrimModel->MaxVertex;
+	glm::vec3 diff = (MinVertex - MaxVertex) / glm::vec3(2);
+	Myradius = sqrt(pow(diff.x, 2) + pow(diff.y, 2) + pow(diff.z, 2));
 	ObjectCenter = (MinVertex + MaxVertex) / 2.0f;
 	Enemy::InitalizeEnemyPosition();
+	CalculateGraphIndex();
+	AddToSceneG(this);
 }
 
 void GrimReaper::Move()
 {
-		GameObject::Translate(glm::vec3(-0.05f, 0.0f, 0.0f));
+	GameObject::RemoveFromSG(this);
+
+	GameObject::Translate(glm::vec3(-0.05f, 0.0f, 0.0f));
+	CheckMoveValidity();
 }
 
 void GrimReaper::Draw(Shader*ourShader)

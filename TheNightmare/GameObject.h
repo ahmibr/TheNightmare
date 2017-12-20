@@ -17,7 +17,14 @@ protected:
 	glm::vec3 ObjectCenter;
 	glm::vec3 MinVertex;
 	glm::vec3 MaxVertex;
+	static 	vector<vector<vector<pair<GameObject*,int>>>> SceneGraph;
+	int Gz;
+	int Gy;
+	int index;
+	glm::vec3 lasttrans; //to check for its validity and if not valid, reverse it
 	//int NumberOfInstances;
+	static float skyradius;
+	float Myradius;
 
 public:
 	GameObject();
@@ -31,6 +38,15 @@ public:
 	void Translate(glm::vec3 tran);
 	void Rotate(glm::vec3 RotationAxes, float degree);
 	virtual ~GameObject()=0;
+
+	static void AddToSceneG(GameObject* o, int rock=0); //rock=1, tree=2
+	static void InitializeScene();
+	void CalculateGraphIndex();
+	void CheckMoveValidity();
+	bool CheckCollision(GameObject* o,float &r);
+	static void RemoveFromSG(GameObject*o);
+	static void SetSR(glm::vec3 diff);
+
 };
 #endif
 

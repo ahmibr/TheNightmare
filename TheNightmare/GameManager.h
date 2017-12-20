@@ -34,6 +34,7 @@ class GameManager
 	static int Menus;
 	Model*MenusArray[4];
 	Light*LightArray;
+	//vector<vector<vector<GameObject*>>> SceneGraph;
 
 	int TimeLeft;
 
@@ -55,5 +56,11 @@ public:
 	void SetLighting();
 	void GenerateEnemies();
 	void GenerateObstacles();
+	//////////////////////////////////////////
+	void CollisionDetection(Enemy* e, int index);
+	bool Collide(GameObject*, GameObject*);
+
+	//void AddToSceneG(GameObject* o);
+
 };
 #endif

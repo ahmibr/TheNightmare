@@ -17,12 +17,18 @@ Dounat::Dounat()
 	PreviousAngle = -20;
 	MinVertex = DounatModel->MinVertex;
 	MaxVertex = DounatModel->MaxVertex;
+	glm::vec3 diff = (MinVertex - MaxVertex) / glm::vec3(2);
+	Myradius = sqrt(pow(diff.x, 2) + pow(diff.y, 2) + pow(diff.z, 2));
 	ObjectCenter = (MinVertex + MaxVertex) / 2.0f;
 	Enemy::InitalizeEnemyPosition();
+	CalculateGraphIndex();
+	AddToSceneG(this);
 }
 
 void Dounat::Move()
 {
+	GameObject::RemoveFromSG(this);
+	
 	if (HorizontalDistance != 0)
 	{
 		if (FirstTime && JmpTimes != 20)
@@ -79,6 +85,7 @@ void Dounat::Move()
 			JmpTimes--;
 		}
 	}
+	CheckMoveValidity();
 }
 
 void Dounat::Draw(Shader*ourShader)

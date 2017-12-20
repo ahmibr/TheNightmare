@@ -15,6 +15,8 @@ Pika::Pika()
 	JmpTimes = 0;
 	MinVertex = PikaModel->MinVertex;
 	MaxVertex = PikaModel->MaxVertex;
+	glm::vec3 diff = (MinVertex - MaxVertex) / glm::vec3(2);
+	Myradius = sqrt(pow(diff.x, 2) + pow(diff.y, 2) + pow(diff.z, 2));
 	ObjectCenter = (MinVertex + MaxVertex) / 2.0f;
 	Enemy::InitalizeEnemyPosition();
 
@@ -22,10 +24,14 @@ Pika::Pika()
 		GameObject::Rotate(glm::vec3(0.0f, ObjectCenter.y, 0.0f), -90);
 	else
 		GameObject::Rotate(glm::vec3(0.0f, ObjectCenter.y, 0.0f), 90);
+	CalculateGraphIndex();
+	AddToSceneG(this);
 }
 
 void Pika::Move()
 {
+	GameObject::RemoveFromSG(this);
+	
 	if (HorizontalDistance > 0)
 	{
 		if (UpD)
@@ -82,6 +88,8 @@ void Pika::Move()
 		}
 
 	}
+	CheckMoveValidity();
+
 
 }
 

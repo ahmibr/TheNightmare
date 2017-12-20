@@ -17,13 +17,19 @@ Cacodemon::Cacodemon()
 	MaxHeight = 300;
 	MinVertex = CacodemonModel->MinVertex;
 	MaxVertex = CacodemonModel->MaxVertex;
+	glm::vec3 diff = (MinVertex - MaxVertex) / glm::vec3(2);
+	Myradius = sqrt(pow(diff.x, 2) + pow(diff.y, 2) + pow(diff.z, 2));
 	ObjectCenter = (MinVertex + MaxVertex) / 2.0f;
 	BlinkTime = 0;
 	Enemy::InitalizeEnemyPosition();
+	CalculateGraphIndex();
+	AddToSceneG(this);
 }
 
 void Cacodemon::Move()
 {
+	GameObject::RemoveFromSG(this);
+	
 	if (FirstTime)
 	{
 		GameObject::Translate(glm::vec3(0.0f, 0.03f, 0));
@@ -97,6 +103,7 @@ void Cacodemon::Move()
 
 		}
 	}
+	CheckMoveValidity();
 }
 
 void Cacodemon::Draw(Shader*ourShader)

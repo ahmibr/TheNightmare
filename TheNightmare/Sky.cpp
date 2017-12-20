@@ -6,6 +6,7 @@ Sky::Sky():SkyModel("../resources/objects/Sky/Sky.obj")
 	MaxVertex = SkyModel.MaxVertex;
 	ObjectCenter = (MinVertex + MaxVertex) / 2.0f;
 	GameObject::Translate(-ObjectCenter);
+	GameObject::SetSR((MinVertex - MaxVertex) / glm::vec3(2));
 }
 
 void Sky::Draw(Shader*ourShader)
