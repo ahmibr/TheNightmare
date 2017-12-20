@@ -16,3 +16,12 @@ void Environment::InitalizeEnvironmentPosition()
 Environment::~Environment()
 {
 }
+bool Environment::CheckForHit(glm::vec3 campos)
+{
+	return false;
+
+}
+void Environment::throwRock(glm::vec3 campos)
+{
+
+}

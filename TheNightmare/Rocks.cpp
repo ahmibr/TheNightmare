@@ -17,11 +17,10 @@ void Rocks::Draw(Shader*ourShader)
 	RocksModel->Draw(*ourShader);
 }
 
-void Rocks::throwRock(float speed, float angle) {
-	Vo = speed;
-	theta = angle;
+void Rocks::throwRock(glm::vec3 campos) {
 	intialPos = GetCenter();
 	inAir = true;
+	computeIntialVilocity(campos);
 }
 
 void Rocks::move() {
@@ -51,6 +50,15 @@ void Rocks::move() {
 	Translate(center);
 }
 
+
+
+void Rocks::computeIntialVilocity(glm::vec3 campos) {
+	theta = 30.0f; //choose any angle you want it doesn't matter i choose 30 becuase i like this angle xD
+	float x = campos.x; //replace zeros with values you have for both x and y
+	float y = campos.y;
+
+	Vo = sqrt((9.8 * abs(x*x)) / (2 * (tan(theta * PI / 180) * abs(x) - y) * pow(cos(theta * PI / 180), 2)));
+}
 void Rocks::LoadRocksModel()
 {
 	RocksModel = new Model("../resources/objects/Rocks/Rocks.obj");
@@ -59,4 +67,20 @@ void Rocks::LoadRocksModel()
 
 Rocks::~Rocks()
 {
+}
+
+bool Rocks::CheckForHit(glm::vec3 campos)
+{
+	glm::vec3 diff = abs(ObjectCenter - campos);
+	glm::vec3 sumofcenters = (abs(ObjectCenter - MaxVertex) + glm::vec3(1, 1, 1));
+
+	if (diff.x <= sumofcenters.x&&diff.z <= sumofcenters.z&&diff.y <= sumofcenters.y)
+	{
+		cout << "ROCK HIT MEEEE";
+		return true;
+
+	}
+
+	return false;
+
 }

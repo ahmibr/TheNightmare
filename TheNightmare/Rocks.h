@@ -15,8 +15,10 @@ class Rocks : public Environment
 public:
 	Rocks();
 	static void LoadRocksModel();
-	void throwRock(float speed, float angle);
+	void throwRock(glm::vec3 campos);
 	void Draw(Shader*ourShader);
+	bool CheckForHit(glm::vec3 campos);
+	void computeIntialVilocity(glm::vec3 campos);
 	~Rocks();
 };
 

@@ -288,8 +288,6 @@ bool GameManager::Start()
 	rock = new Rocks();
 	rock->Translate(glm::vec3(0.0f, 0.0f, 0.0f));
 
-	// rock->throwRock(26.43f, 30.0f);
-
 	//Set up Camera Position depending on GUN
 	/////////////////////
 	camera.SetCameraPosition(GamePlayer->GetCenter()+ CameraGunOffset);
@@ -297,6 +295,9 @@ bool GameManager::Start()
 	/////////////////////
 	camera.MinSpace = GameWall->GetMinVertex().z+1;
 	camera.MaxSpace = GameWall->GetMaxVertex().z-1;
+
+	rock->throwRock(camera.Position);
+
 	return true;
 
 }
@@ -354,6 +355,7 @@ void GameManager::GameLoop()
 		for (int i = 0; i < ObstaclesList.size(); i++)
 		{
 			ObstaclesList[i]->Draw(ourShader);
+			ObstaclesList[i]->CheckForHit(camera.Position);
 		}
 
 		GenerateEnemies();
