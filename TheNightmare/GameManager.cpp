@@ -39,18 +39,26 @@ void GameManager::processInput(GLFWwindow *window)
 		GamePlayer->Translate(camera.Position- GamePlayer->GetCenter()- CameraGunOffset);
 	}
 
-	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS) {
-
+	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS && shootingDelay <= 0) {
+		shootingDelay = 100;
+		int topIndex = -1;
+		float topValue = 100.0f;
 		if (EnemyList.size() > 0) {
 			Ray bullet(camera.Position - glm::vec3(0, 5, 0), camera.Front);
 			for (int i = 0; i < EnemyList.size();++i) {
 
 				if (EnemyList[i]->rayCast(bullet)) {
-					EnemyList.erase(EnemyList.begin() + i);
-					--i;
+					if (EnemyList[i]->getMaxX() < topValue) {
+						topIndex = i;
+						topValue = EnemyList[i]->getMaxX();
+					}
+					/*EnemyList.erase(EnemyList.begin() + i);
+					--i;*/
 				}
 			}
 		}
+		if(topIndex != -1)
+			EnemyList.erase(EnemyList.begin() + topIndex);
 	}
 }
 
@@ -278,9 +286,9 @@ bool GameManager::Start()
 	LoadAllModels();
 
 	rock = new Rocks();
-	rock->Translate(glm::vec3(30.0f, 0.0f, 0.0f));
+	rock->Translate(glm::vec3(0.0f, 0.0f, 0.0f));
 
-	rock->throwRock(25.0f, 75.0f);
+	// rock->throwRock(26.43f, 30.0f);
 
 	//Set up Camera Position depending on GUN
 	/////////////////////
@@ -315,7 +323,7 @@ void GameManager::GameLoop()
 
 		//enable shader before setting uniforms
 		ourShader->use();
-		
+		shootingDelay--;
 		// view/projection transformations
 		glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
 		glm::mat4 view = camera.GetViewMatrix();
@@ -333,9 +341,9 @@ void GameManager::GameLoop()
 		float playerHit = 0.0f;
 		for (int i = 0; i < EnemyList.size(); i++) {
 			if (GameWall->rayCast(EnemyList[i]->attack()))
-				playerHit += 1.0f;
+				playerHit += 0.01f;
 			if (GamePlayer->rayCast(EnemyList[i]->attack()))
-				playerHit += 5.0f;
+				playerHit += 0.1f;
 		}
 
 		if (!GamePlayer->reduceHealth(playerHit)) {

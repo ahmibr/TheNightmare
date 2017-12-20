@@ -107,6 +107,18 @@ glm::vec3 GameObject::GetMaxVertex()
 	return MaxVertex;
 }
 
+float GameObject::getMaxX()
+{
+	glm::vec3 center = this->GetCenter();
+	float x = abs(this->GetMaxVertex().x - this->GetMinVertex().x);
+	float y = abs(this->GetMaxVertex().y - this->GetMinVertex().y);
+	float z = abs(this->GetMaxVertex().z - this->GetMinVertex().z);
+
+	glm::vec3 o = glm::vec3(center.x + x / 2, center.y - y / 2, center.z - z / 2);
+
+	return o.x - x;
+}
+
 void GameObject::Move()
 { }
 

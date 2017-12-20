@@ -39,6 +39,7 @@ public:
 	glm::vec3 GetCenter();
 	glm::vec3 GetMinVertex();
 	glm::vec3 GetMaxVertex();
+	float getMaxX();
 	bool rayCast(Ray bullet);
 	virtual void Draw(Shader*ourShader) = 0;
 	virtual void Move();

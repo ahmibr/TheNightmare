@@ -30,7 +30,7 @@ class GameManager
 	Shader *ourShader;
 	GLFWwindow* window;
 	Rocks *rock;
-	
+	int shootingDelay = 0;
 	int TimeLeft;
 	//void moveRock(Rocks*& rock, glm::vec3 intialPos, float Vo, float theta);
 
