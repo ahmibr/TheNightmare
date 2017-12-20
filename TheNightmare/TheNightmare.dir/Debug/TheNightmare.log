@@ -1,9 +1,122 @@
-﻿Build started 12/13/2017 8:55:43 PM.
-     1>Project "C:\Users\Ahmed\Desktop\TheNightmare\TheNightmare\TheNightmare.vcxproj" on node 2 (Build target(s)).
-     1>Link:
-         TheNightmare.vcxproj -> C:\Users\Ahmed\Desktop\TheNightmare\Debug\TheNightmare.exe
-     1>Done Building Project "C:\Users\Ahmed\Desktop\TheNightmare\TheNightmare\TheNightmare.vcxproj" (Build target(s)).
+﻿Build started 20/12/2017 07:43:28 ص.
+     1>Project "G:\graphics_project\TheNightmare\TheNightmare\TheNightmare.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /Od /Ob0 /Oy- /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"TheNightmare.dir\Debug\\" /Fd"TheNightmare.dir\Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt  /EHsc";"-std=c++11 Alien.cpp Dounat.cpp Enemy.cpp Environment.cpp Floor.cpp GameManager.cpp GameObject.cpp glad.c GrimReaper.cpp Pika.cpp Player.cpp Portal.cpp Raiden.cpp Rocks.cpp Sky.cpp Source.cpp stb_image.cpp Tree.cpp Wall.cpp Wizard.cpp
+     1>cl : Command line warning D9002: ignoring unknown option '/EH;'
+     1>cl : Command line warning D9002: ignoring unknown option '/EH-'
+     1>cl : Command line warning D9002: ignoring unknown option '/EHt'
+     1>cl : Command line warning D9002: ignoring unknown option '/EHd'
+     1>cl : Command line warning D9002: ignoring unknown option '/EH='
+     1>cl : Command line warning D9002: ignoring unknown option '/EH+'
+     1>cl : Command line warning D9002: ignoring unknown option '/EH+'
+     1>cl : Command line warning D9002: ignoring unknown option '/EH1'
+     1>cl : Command line warning D9002: ignoring unknown option '/EH1'
+         Alien.cpp
+     1>G:\graphics_project\TheNightmare\include\learnopengl/shader.h(65): warning C4101: 'infoLog': unreferenced local variable
+     1>G:\graphics_project\TheNightmare\include\learnopengl/shader.h(64): warning C4101: 'success': unreferenced local variable
+         Dounat.cpp
+     1>G:\graphics_project\TheNightmare\include\learnopengl/shader.h(65): warning C4101: 'infoLog': unreferenced local variable
+     1>G:\graphics_project\TheNightmare\include\learnopengl/shader.h(64): warning C4101: 'success': unreferenced local variable
+         Enemy.cpp
+     1>G:\graphics_project\TheNightmare\include\learnopengl/shader.h(65): warning C4101: 'infoLog': unreferenced local variable
+     1>G:\graphics_project\TheNightmare\include\learnopengl/shader.h(64): warning C4101: 'success': unreferenced local variable
+         Environment.cpp
+     1>G:\graphics_project\TheNightmare\include\learnopengl/shader.h(65): warning C4101: 'infoLog': unreferenced local variable
+     1>G:\graphics_project\TheNightmare\include\learnopengl/shader.h(64): warning C4101: 'success': unreferenced local variable
+         Floor.cpp
+     1>G:\graphics_project\TheNightmare\include\learnopengl/shader.h(65): warning C4101: 'infoLog': unreferenced local variable
+     1>G:\graphics_project\TheNightmare\include\learnopengl/shader.h(64): warning C4101: 'success': unreferenced local variable
+         GameManager.cpp
+     1>G:\graphics_project\TheNightmare\include\learnopengl/shader_m.h(53): warning C4101: 'infoLog': unreferenced local variable
+     1>G:\graphics_project\TheNightmare\include\learnopengl/shader_m.h(52): warning C4101: 'success': unreferenced local variable
+     1>GameManager.cpp(18): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+     1>GameManager.cpp(112): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+     1>GameManager.cpp(113): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+     1>GameManager.cpp(118): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+     1>GameManager.cpp(119): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+     1>GameManager.cpp(122): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+     1>GameManager.cpp(123): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+     1>GameManager.cpp(133): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+     1>GameManager.cpp(234): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+     1>GameManager.cpp(265): warning C4018: '<': signed/unsigned mismatch
+         GameObject.cpp
+     1>G:\graphics_project\TheNightmare\include\learnopengl/shader.h(65): warning C4101: 'infoLog': unreferenced local variable
+     1>G:\graphics_project\TheNightmare\include\learnopengl/shader.h(64): warning C4101: 'success': unreferenced local variable
+         glad.c
+         GrimReaper.cpp
+     1>G:\graphics_project\TheNightmare\include\learnopengl/shader.h(65): warning C4101: 'infoLog': unreferenced local variable
+     1>G:\graphics_project\TheNightmare\include\learnopengl/shader.h(64): warning C4101: 'success': unreferenced local variable
+         Pika.cpp
+     1>G:\graphics_project\TheNightmare\include\learnopengl/shader.h(65): warning C4101: 'infoLog': unreferenced local variable
+     1>G:\graphics_project\TheNightmare\include\learnopengl/shader.h(64): warning C4101: 'success': unreferenced local variable
+         Player.cpp
+     1>G:\graphics_project\TheNightmare\include\learnopengl/shader.h(65): warning C4101: 'infoLog': unreferenced local variable
+     1>G:\graphics_project\TheNightmare\include\learnopengl/shader.h(64): warning C4101: 'success': unreferenced local variable
+         Portal.cpp
+     1>G:\graphics_project\TheNightmare\include\learnopengl/shader.h(65): warning C4101: 'infoLog': unreferenced local variable
+     1>G:\graphics_project\TheNightmare\include\learnopengl/shader.h(64): warning C4101: 'success': unreferenced local variable
+         Raiden.cpp
+     1>G:\graphics_project\TheNightmare\include\learnopengl/shader.h(65): warning C4101: 'infoLog': unreferenced local variable
+     1>G:\graphics_project\TheNightmare\include\learnopengl/shader.h(64): warning C4101: 'success': unreferenced local variable
+         Rocks.cpp
+     1>G:\graphics_project\TheNightmare\include\learnopengl/shader.h(65): warning C4101: 'infoLog': unreferenced local variable
+     1>G:\graphics_project\TheNightmare\include\learnopengl/shader.h(64): warning C4101: 'success': unreferenced local variable
+         Sky.cpp
+     1>G:\graphics_project\TheNightmare\include\learnopengl/shader.h(65): warning C4101: 'infoLog': unreferenced local variable
+     1>G:\graphics_project\TheNightmare\include\learnopengl/shader.h(64): warning C4101: 'success': unreferenced local variable
+         Source.cpp
+     1>G:\graphics_project\TheNightmare\include\learnopengl/shader_m.h(53): warning C4101: 'infoLog': unreferenced local variable
+     1>G:\graphics_project\TheNightmare\include\learnopengl/shader_m.h(52): warning C4101: 'success': unreferenced local variable
+         stb_image.cpp
+         Tree.cpp
+     1>G:\graphics_project\TheNightmare\include\learnopengl/shader.h(65): warning C4101: 'infoLog': unreferenced local variable
+     1>G:\graphics_project\TheNightmare\include\learnopengl/shader.h(64): warning C4101: 'success': unreferenced local variable
+         Wall.cpp
+     1>G:\graphics_project\TheNightmare\include\learnopengl/shader.h(65): warning C4101: 'infoLog': unreferenced local variable
+     1>G:\graphics_project\TheNightmare\include\learnopengl/shader.h(64): warning C4101: 'success': unreferenced local variable
+         Wizard.cpp
+     1>G:\graphics_project\TheNightmare\include\learnopengl/shader.h(65): warning C4101: 'infoLog': unreferenced local variable
+     1>G:\graphics_project\TheNightmare\include\learnopengl/shader.h(64): warning C4101: 'success': unreferenced local variable
+         Generating Code...
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"G:\graphics_project\TheNightmare\Debug\TheNightmare.exe" /INCREMENTAL /NOLOGO glfw3.lib opengl32.lib assimp.lib STB_IMAGE.lib GLAD.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"G:\graphics_project\TheNightmare\Debug\TheNightmare.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"G:\graphics_project\TheNightmare\Debug\TheNightmare.lib" /MACHINE:X86 /SAFESEH  /machine:X86 TheNightmare.dir\Debug\Alien.obj
+         TheNightmare.dir\Debug\Dounat.obj
+         TheNightmare.dir\Debug\Enemy.obj
+         TheNightmare.dir\Debug\Environment.obj
+         TheNightmare.dir\Debug\Floor.obj
+         TheNightmare.dir\Debug\GameManager.obj
+         TheNightmare.dir\Debug\GameObject.obj
+         TheNightmare.dir\Debug\glad.obj
+         TheNightmare.dir\Debug\GrimReaper.obj
+         TheNightmare.dir\Debug\Pika.obj
+         TheNightmare.dir\Debug\Player.obj
+         TheNightmare.dir\Debug\Portal.obj
+         TheNightmare.dir\Debug\Raiden.obj
+         TheNightmare.dir\Debug\Rocks.obj
+         TheNightmare.dir\Debug\Sky.obj
+         TheNightmare.dir\Debug\Source.obj
+         TheNightmare.dir\Debug\stb_image.obj
+         TheNightmare.dir\Debug\Tree.obj
+         TheNightmare.dir\Debug\Wall.obj
+         TheNightmare.dir\Debug\Wizard.obj
+         LINK : G:\graphics_project\TheNightmare\Debug\TheNightmare.exe not found or not built by the last incremental link; performing full link
+     1>glfw3.lib(context.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(context.obj)' or at 'G:\graphics_project\TheNightmare\Debug\glfw.pdb'; linking object as if no debug info
+     1>glfw3.lib(init.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(init.obj)' or at 'G:\graphics_project\TheNightmare\Debug\glfw.pdb'; linking object as if no debug info
+     1>glfw3.lib(input.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(input.obj)' or at 'G:\graphics_project\TheNightmare\Debug\glfw.pdb'; linking object as if no debug info
+     1>glfw3.lib(monitor.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(monitor.obj)' or at 'G:\graphics_project\TheNightmare\Debug\glfw.pdb'; linking object as if no debug info
+     1>glfw3.lib(vulkan.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(vulkan.obj)' or at 'G:\graphics_project\TheNightmare\Debug\glfw.pdb'; linking object as if no debug info
+     1>glfw3.lib(window.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(window.obj)' or at 'G:\graphics_project\TheNightmare\Debug\glfw.pdb'; linking object as if no debug info
+     1>glfw3.lib(win32_init.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(win32_init.obj)' or at 'G:\graphics_project\TheNightmare\Debug\glfw.pdb'; linking object as if no debug info
+     1>glfw3.lib(win32_joystick.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(win32_joystick.obj)' or at 'G:\graphics_project\TheNightmare\Debug\glfw.pdb'; linking object as if no debug info
+     1>glfw3.lib(win32_monitor.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(win32_monitor.obj)' or at 'G:\graphics_project\TheNightmare\Debug\glfw.pdb'; linking object as if no debug info
+     1>glfw3.lib(win32_time.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(win32_time.obj)' or at 'G:\graphics_project\TheNightmare\Debug\glfw.pdb'; linking object as if no debug info
+     1>glfw3.lib(win32_tls.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(win32_tls.obj)' or at 'G:\graphics_project\TheNightmare\Debug\glfw.pdb'; linking object as if no debug info
+     1>glfw3.lib(win32_window.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(win32_window.obj)' or at 'G:\graphics_project\TheNightmare\Debug\glfw.pdb'; linking object as if no debug info
+     1>glfw3.lib(wgl_context.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(wgl_context.obj)' or at 'G:\graphics_project\TheNightmare\Debug\glfw.pdb'; linking object as if no debug info
+     1>glfw3.lib(egl_context.obj) : warning LNK4099: PDB 'glfw.pdb' was not found with 'glfw3.lib(egl_context.obj)' or at 'G:\graphics_project\TheNightmare\Debug\glfw.pdb'; linking object as if no debug info
+         TheNightmare.vcxproj -> G:\graphics_project\TheNightmare\Debug\TheNightmare.exe
+     1>Done Building Project "G:\graphics_project\TheNightmare\TheNightmare\TheNightmare.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:00.11
+Time Elapsed 00:00:15.87
