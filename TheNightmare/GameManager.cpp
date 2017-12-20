@@ -512,7 +512,11 @@ void GameManager::GameLoop()
 				GenerateEnemies();
 
 			for (int i = 0; i < EnemyList.size(); i++)
+			{
 				EnemyList[i]->Draw(ourShader);
+				CollisionDetection(EnemyList[i], i);
+
+			}
 		}
 
 		glfwSwapBuffers(window);
@@ -596,3 +600,58 @@ GameManager::~GameManager()
 //	SceneGraph[z][y].push_back(o);
 //
 //}
+
+
+void  GameManager::CollisionDetection(Enemy* e, int index)
+{
+	if (!GetlastMove() == glm::vec3(0))
+	{
+		bool collide = false;
+		for (int i = 0; i < EnemyList.size(); i++)
+		{
+			if (Collide(e, EnemyList[i]) && i != index)
+			{
+				collide = true;
+				break;
+			}
+		}
+
+		if (!collide)
+		{
+			for (int i = 12; i < ObstaclesList.size(); i++)
+			{
+				if (Collide(e, ObstaclesList[i]))
+				{
+					collide = true;
+					ObstaclesList.throwatenemy();
+					break;
+				}
+			}
+		}
+		if (!collide) //check with the wall
+		{
+			if (e->GetCenter().x - e->getradius()<= GameWall->GetMaxVertex().x)
+			{
+				collide = true;
+			}
+
+		}
+
+		if (collide)
+			e->Translate(-e->GetLastMove());
+
+		
+	}
+}
+
+
+
+
+bool GameManager::Collide(GameObject* e1, GameObject* e2)
+{
+	glm::vec3 diff = e1->GetCenter() - e2->GetCenter() ;
+	float m = sqrt(pow(diff.x, 2) + pow(diff.y, 2) + pow(diff.z, 2));
+	float r = m - (e1->getradius() + e2->getradius());
+	return r < 0;
+
+}

@@ -240,6 +240,7 @@ bool GameObject::CheckCollision(GameObject* o, float& r)
 
 }
 
+
 void GameObject::RemoveFromSG(GameObject*o)
 {
 	SceneGraph[o->Gz][o->Gy].erase(SceneGraph[o->Gz][o->Gy].begin() + o->index );
