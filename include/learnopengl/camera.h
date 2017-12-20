@@ -102,8 +102,8 @@ public:
         // Make sure that when pitch is out of bounds, screen doesn't get flipped ///also check for yaw
         if (constrainPitch)
         {
-            if (Pitch > 89.0f)
-                Pitch = 89.0f;
+            if (Pitch > 10.0f)
+                Pitch = 10.0f;
             if (Pitch < -89.0f)
                 Pitch = -89.0f;
 			if (Yaw > 89.0f)
@@ -127,9 +127,9 @@ public:
             Zoom = 45.0f;
     }
 
-	void SetCameraPosition(glm::vec3 Mai)
+	void SetCameraPosition(glm::vec3 pos)
 	{
-		Position = Mai;
+		Position = pos;
 	}
 
 private:

@@ -1,6 +1,6 @@
 #include "GameManager.h"
-
-Camera camera(glm::vec3(0, 10, 0)); //up in y front in x
+Player* GamePlayer;
+Camera camera(glm::vec3(-33.7f, 8.5f, -0.1f)); //up in y front in x
 glm::vec3 CameraGunOffset = glm::vec3(0.0f, 0.25f, 0.0f);
  float lastX;
  float lastY;
@@ -30,13 +30,13 @@ void GameManager::processInput(GLFWwindow *window)
 	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
 	{
 		camera.ProcessKeyboard(LEFT, deltaTime);
-		GamePlayer->Translate(camera.Position - GamePlayer->GetCenter() - CameraGunOffset);
+		GamePlayer->Translate(glm::vec3(0,0,camera.Position.z - GamePlayer->GetCenter().z - CameraGunOffset.z));
 	}
 
 	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
 	{
 		camera.ProcessKeyboard(RIGHT, deltaTime);
-		GamePlayer->Translate(camera.Position- GamePlayer->GetCenter()- CameraGunOffset);
+		GamePlayer->Translate(glm::vec3(0,0,camera.Position.z - GamePlayer->GetCenter().z - CameraGunOffset.z));
 	}
 
 	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS && shootingDelay <= 0) {
@@ -190,13 +190,16 @@ void GameManager::mouse_callback(GLFWwindow* window, double xpos, double ypos)
 		firstMouse = false;
 	}
 
+	//cout << xpos << " " << ypos << endl;
 	float xoffset = xpos - lastX;
 	float yoffset = lastY - ypos; // reversed since y-coordinates go from bottom to top
 
+
 	lastX = xpos;
 	lastY = ypos;
-
 	camera.ProcessMouseMovement(xoffset, yoffset);
+	GamePlayer->moveWithCursor(camera.GetViewMatrix());
+	
 }
 
 // glfw: whenever the mouse scroll wheel scrolls, this callback is called
@@ -290,8 +293,9 @@ bool GameManager::Start()
 
 	//Set up Camera Position depending on GUN
 	/////////////////////
-	cout << "(" << GamePlayer->GetCenter().x << ", " << GamePlayer->GetCenter().y << ", " << GamePlayer->GetCenter().z << ")" << endl;
+	// cout << "(" << GamePlayer->GetCenter().x << ", " << GamePlayer->GetCenter().y << ", " << GamePlayer->GetCenter().z << ")" << endl;
 	camera.SetCameraPosition(GamePlayer->GetCenter()+ CameraGunOffset);
+	//camera.SetCameraPosition(glm::vec3(-40.0f,10.0f,0.0f));
 	//Declare camera moving space limits, Tree length
 	/////////////////////
 	camera.MinSpace = GameWall->GetMinVertex().z+1;

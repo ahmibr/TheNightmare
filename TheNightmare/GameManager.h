@@ -16,9 +16,9 @@
 #include <time.h>
 #include "Allincludes.h"
 
+
 class GameManager
 {
-	Player*GamePlayer;
 	Sky*GameSky;
 	Floor*GameFloor;
 	Wall*GameWall;
@@ -35,8 +35,8 @@ class GameManager
 	//void moveRock(Rocks*& rock, glm::vec3 intialPos, float Vo, float theta);
 
 	// settings
-	const unsigned int SCR_WIDTH = 1366;
-	const unsigned int SCR_HEIGHT = 768;
+	const unsigned int SCR_WIDTH = 800;
+	const unsigned int SCR_HEIGHT = 600;
 
 public:
 	GameManager();
