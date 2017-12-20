@@ -1,6 +1,6 @@
 #include "GameManager.h"
-
-Camera camera(glm::vec3(0, 10, 0)); //up in y front in x
+Player* GamePlayer;
+Camera camera(glm::vec3(-33.7f, 8.5f, -0.1f)); //up in y front in x
 glm::vec3 CameraGunOffset = glm::vec3(0.0f, 0.25f, 0.0f);
 float lastX;
 float lastY;
@@ -38,27 +38,36 @@ void GameManager::processInput(GLFWwindow *window)
 	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
 	{
 		camera.ProcessKeyboard(LEFT, deltaTime);
-		GamePlayer->Translate(camera.Position - GamePlayer->GetCenter() - CameraGunOffset);
+		GamePlayer->Translate(glm::vec3(0,0,camera.Position.z - GamePlayer->GetCenter().z - CameraGunOffset.z));
 	}
 
 	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
 	{
 		camera.ProcessKeyboard(RIGHT, deltaTime);
-		GamePlayer->Translate(camera.Position - GamePlayer->GetCenter() - CameraGunOffset);
+		// GamePlayer->Translate(camera.Position - GamePlayer->GetCenter() - CameraGunOffset);
+		GamePlayer->Translate(glm::vec3(0,0,camera.Position.z - GamePlayer->GetCenter().z - CameraGunOffset.z));
 	}
 
-	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS) {
-
+	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS && shootingDelay <= 0) {
+		shootingDelay = 100;
+		int topIndex = -1;
+		float topValue = 100.0f;
 		if (EnemyList.size() > 0) {
 			Ray bullet(camera.Position - glm::vec3(0, 5, 0), camera.Front);
 			for (int i = 0; i < EnemyList.size();++i) {
 
 				if (EnemyList[i]->rayCast(bullet)) {
-					EnemyList.erase(EnemyList.begin() + i);
-					--i;
+					if (EnemyList[i]->getMaxX() < topValue) {
+						topIndex = i;
+						topValue = EnemyList[i]->getMaxX();
+					}
+					/*EnemyList.erase(EnemyList.begin() + i);
+					--i;*/
 				}
 			}
 		}
+		if(topIndex != -1)
+			EnemyList.erase(EnemyList.begin() + topIndex);
 	}
 }
 
@@ -101,6 +110,19 @@ void GameManager::LoadAllModels()
 
 	GenerateObstacles();
 
+	Rocks::LoadRocksModel();
+	EnemyList.push_back(new Dounat);
+}
+
+void GenerateRocks(int numRocks) {
+	srand(time(NULL));
+	float r;
+
+	for (int i = 0; i < numRocks; i++)
+	{
+		r = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+
+	}
 }
 
 void GameManager::GenerateEnemies()
@@ -288,14 +310,19 @@ void GameManager::mouse_callback(GLFWwindow* window, double xpos, double ypos)
 		firstMouse = false;
 	}
 
+	//cout << xpos << " " << ypos << endl;
 	float xoffset = xpos - lastX;
 	float yoffset = lastY - ypos; // reversed since y-coordinates go from bottom to top
+
 
 	lastX = xpos;
 	lastY = ypos;
 
 	if (Menus == 0)
 		camera.ProcessMouseMovement(xoffset, yoffset);
+	camera.ProcessMouseMovement(xoffset, yoffset);
+	GamePlayer->moveWithCursor(camera.GetViewMatrix());
+	
 }
 
 // glfw: whenever the mouse scroll wheel scrolls, this callback is called
@@ -389,8 +416,7 @@ bool GameManager::Start()
 
 	// load models
 	LoadAllModels();
-	
-	Rocks::LoadRocksModel();
+
 	rock = new Rocks();
 	rock->Translate(glm::vec3(0.0f, 0.0f, 0.0f));
 
@@ -406,6 +432,18 @@ bool GameManager::Start()
 	ourShader->setInt("material.diffuse", 0);
 	ourShader->setInt("material.specular", 1);
 
+
+	// return true;
+
+	// cout << "(" << GamePlayer->GetCenter().x << ", " << GamePlayer->GetCenter().y << ", " << GamePlayer->GetCenter().z << ")" << endl;
+	camera.SetCameraPosition(GamePlayer->GetCenter()+ CameraGunOffset);
+	//camera.SetCameraPosition(glm::vec3(-40.0f,10.0f,0.0f));
+	//Declare camera moving space limits, Tree length
+	/////////////////////
+	camera.MinSpace = GameWall->GetMinVertex().z+1;
+	camera.MaxSpace = GameWall->GetMaxVertex().z-1;
+
+	// rock->throwRock(camera.Position);
 
 	return true;
 
@@ -438,6 +476,7 @@ void GameManager::GameLoop()
 
 		SetLighting();
 
+		shootingDelay--;
 		// view/projection transformations
 		glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
 		glm::mat4 view = camera.GetViewMatrix();
@@ -447,6 +486,26 @@ void GameManager::GameLoop()
 
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
 		// -------------------------------------------------------------------------------
+		// GameSky->Draw(ourShader);
+		// GamePlayer->Draw(ourShader);
+		// GameFloor->Draw(ourShader);
+		// GameWall->Draw(ourShader);
+		// GamePortal->Draw(ourShader);
+		// rock->Draw(ourShader);
+		// float playerHit = 0.0f;
+		// for (int i = 0; i < EnemyList.size(); i++) {
+		// 	if (GameWall->rayCast(EnemyList[i]->attack()))
+		// 		playerHit += 0.01f;
+		// 	if (GamePlayer->rayCast(EnemyList[i]->attack()))
+		// 		playerHit += 0.1f;
+		// }
+
+		// if (!GamePlayer->reduceHealth(playerHit)) {
+		// 	cout << "game over!!!" << endl;
+		// 	return;
+		// }
+
+		// rock->CheckForHit(camera.Position);
 
 		if (Menus > 0)
 		{
@@ -523,8 +582,11 @@ void GameManager::GameLoop()
 			if (NumberOfTotalEnemies < 20)
 				GenerateEnemies();
 
-			for (int i = 0; i < EnemyList.size(); i++)
+			for (int i = 0; i < EnemyList.size(); i++) {
 				EnemyList[i]->Draw(ourShader);
+				ObstaclesList[i]->Draw(ourShader);
+				ObstaclesList[i]->CheckForHit(camera.Position);
+			}
 		}
 
 		GenerateEnemies();

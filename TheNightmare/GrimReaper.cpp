@@ -17,6 +17,12 @@ GrimReaper::GrimReaper()
 	Enemy::InitalizeEnemyPosition();
 }
 
+Ray GrimReaper::attack()
+{
+	//glm::vec3 bullet = glm::normalize(glm::vec3(rand(), 8.5f, rand()));
+	return Enemy::attack();
+}
+
 void GrimReaper::Move()
 {
 		GameObject::Translate(glm::vec3(-0.05f, 0.0f, 0.0f));

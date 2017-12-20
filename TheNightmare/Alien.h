@@ -10,6 +10,7 @@ class Alien : public Enemy
 public:
 	static int GetNumberOfAliens();
 	Alien();
+	virtual Ray attack();
 	static void LoadAlienModel();
 	void Draw(Shader*ourShader);
 	~Alien();

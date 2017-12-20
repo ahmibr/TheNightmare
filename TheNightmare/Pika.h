@@ -10,6 +10,7 @@ class Pika : public Enemy
 public:
 	static int GetNumberOfPikas();
 	Pika();
+	virtual Ray attack();
 	static void LoadPikaModel();
 	void Draw(Shader*ourShader);
 	~Pika();

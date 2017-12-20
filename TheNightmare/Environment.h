@@ -6,5 +6,7 @@ protected:
 	void InitalizeEnvironmentPosition();
 public:
 	Environment();
+	virtual bool CheckForHit(glm::vec3 campos);
+	virtual void throwRock(glm::vec3 campos);
 	~Environment();
 };

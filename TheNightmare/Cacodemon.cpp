@@ -117,6 +117,11 @@ void Cacodemon::LoadCacodemonModel()
 	CacodemonModel = new Model("../resources/objects/Cacodemon/cacodemon.obj");
 }
 
+Ray Cacodemon::attack()
+{
+	return Enemy::attack();
+}
+
 
 Cacodemon::~Cacodemon()
 {

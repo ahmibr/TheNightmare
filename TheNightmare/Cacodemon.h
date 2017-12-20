@@ -14,6 +14,7 @@ public:
 	static int GetNumberOfCacodemons();
 	Cacodemon();
 	static void LoadCacodemonModel();
+	virtual Ray attack();
 	void Draw(Shader*ourShader);
 	~Cacodemon();
 };

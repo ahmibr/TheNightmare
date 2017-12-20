@@ -16,6 +16,9 @@ protected:
 public:
 	Enemy();
 	void StartShooting();
+	virtual Ray attack()=0;
+	//void throwRock(GameObject* rock);
 	virtual ~Enemy()=0;
+
 };
 

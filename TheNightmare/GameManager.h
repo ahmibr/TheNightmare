@@ -16,12 +16,9 @@
 #include <time.h>
 #include "Allincludes.h"
 
-#define PI 3.141592653589793
-#define G 9.8
 
 class GameManager
 {
-	Player*GamePlayer;
 	Sky*GameSky;
 	Floor*GameFloor;
 	Wall*GameWall;
@@ -29,6 +26,7 @@ class GameManager
 	vector<Environment*>ObstaclesList;
 	glm::vec3 MinAvaliableSpace;
 	glm::vec3 MaxAvaliableSpace;
+
 	vector<Enemy*> EnemyList;
 	int NumberOfTotalEnemies;
 	int PreviousEnemy = 0, PrevPreviousEnemy = 1;
@@ -40,11 +38,13 @@ class GameManager
 	Model*MenusArray[4];
 	Light*LightArray;
 
+	int shootingDelay = 0;
 	int TimeLeft;
+	//void moveRock(Rocks*& rock, glm::vec3 intialPos, float Vo, float theta);
 
 	// settings
-	const unsigned int SCR_WIDTH = 1366;
-	const unsigned int SCR_HEIGHT = 768;
+	const unsigned int SCR_WIDTH = 1500;
+	const unsigned int SCR_HEIGHT = 800;
 
 public:
 	GameManager();
@@ -59,5 +59,6 @@ public:
 	void SetLighting();
 	void GenerateEnemies();
 	void GenerateObstacles();
+	void GenerateRocks(int numRocks);
 };
 #endif

@@ -9,6 +9,7 @@ class Raiden : public Enemy
 public:
 	static int GetNumberOfRaidens();
 	Raiden();
+	virtual Ray attack();
 	static void LoadRaidenModel();
 	void Draw(Shader*ourShader);
 	~Raiden();

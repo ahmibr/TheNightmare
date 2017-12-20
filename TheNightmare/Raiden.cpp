@@ -22,6 +22,11 @@ Raiden::Raiden()
 	ArmModelMatrix = ModelMatrix;
 }
 
+Ray Raiden::attack()
+{
+	return Enemy::attack();
+}
+
 void Raiden::Move()
 {
 	if (HorizontalDistance != 0)

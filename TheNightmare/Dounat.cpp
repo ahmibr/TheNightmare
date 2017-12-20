@@ -21,6 +21,11 @@ Dounat::Dounat()
 	Enemy::InitalizeEnemyPosition();
 }
 
+Ray Dounat::attack()
+{
+	return Enemy::attack();
+}
+
 void Dounat::Move()
 {
 	if (HorizontalDistance != 0)

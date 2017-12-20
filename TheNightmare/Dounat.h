@@ -12,6 +12,7 @@ class Dounat : public Enemy
 public:
 	static int GetNumberOfDounats();
 	Dounat();
+	virtual Ray attack();
 	static void LoadDounatModel();
 	void Draw(Shader*ourShader);
 	~Dounat();
