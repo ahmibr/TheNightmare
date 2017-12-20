@@ -18,6 +18,10 @@ void Enemy::InitalizeEnemyPosition()
 	GameObject::Translate(PortalPos);	
 }
 
+Ray Enemy::attack() {
+	return (Ray(GetCenter(), glm::normalize(glm::vec3(-abs(rand()), 8.5f, rand()))));
+}
+
 Enemy::~Enemy()
 {
 }

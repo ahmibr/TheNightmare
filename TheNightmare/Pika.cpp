@@ -20,6 +20,11 @@ Pika::Pika()
 	GameObject::Rotate(glm::vec3(0.0f, ObjectCenter.y, 0.0f), 90);
 }
 
+Ray Pika::attack()
+{
+	return Enemy::attack();
+}
+
 void Pika::Move()
 {
 	if (HorizontalDistance > 0)

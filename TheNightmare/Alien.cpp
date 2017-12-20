@@ -22,6 +22,11 @@ Alien::Alien()
 	//GameObject::Rotate(glm::vec3(0.0f, ObjectCenter.y, 0.0f), 30);
 }
 
+Ray Alien::attack()
+{
+	return Enemy::attack();
+}
+
 void Alien::Move()
 {
 	if (RotationTime == 0)

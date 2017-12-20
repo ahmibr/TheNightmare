@@ -75,7 +75,19 @@ void GameManager::LoadAllModels()
 	Alien::LoadAlienModel();
 	Dounat::LoadDounatModel();
 	GrimReaper::LoadGrimModel();
+	Rocks::LoadRocksModel();
 	EnemyList.push_back(new Dounat);
+}
+
+void GenerateRocks(int numRocks) {
+	srand(time(NULL));
+	float r;
+
+	for (int i = 0; i < numRocks; i++)
+	{
+		r = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+
+	}
 }
 
 void GameManager::GenerateEnemies()
@@ -264,11 +276,11 @@ bool GameManager::Start()
 
 	//GameObject::LoadAllEnemies();
 	LoadAllModels();
-	
-	Rocks::LoadRocksModel();
+
 	rock = new Rocks();
 	rock->Translate(glm::vec3(30.0f, 0.0f, 0.0f));
-	intialPos = rock->GetCenter();
+
+	rock->throwRock(25.0f, 75.0f);
 
 	//Set up Camera Position depending on GUN
 	/////////////////////
@@ -279,32 +291,6 @@ bool GameManager::Start()
 	camera.MaxSpace = GameWall->GetMaxVertex().z-1;
 	return true;
 
-}
-
-void GameManager::moveRock(Rocks*& rock, glm::vec3 intialPos, float Vo, float theta, float fai) {
-	if (done)
-		return;
-
-	int d = int(round(pow(Vo, 2) * sin(2 * theta * PI / 180) / G));
-	glm::vec3 center = rock->GetCenter();
-	float r = sqrt(pow((center.x - intialPos.x), 2) + pow((center.y - intialPos.y), 2) + pow((center.z - intialPos.z), 2));
-	float y = center.y - intialPos.y;
-	float u = sqrt(r*r - y*y);
-
-	if (d == int(round(u))) {
-		glm::vec3 correction = glm::vec3(center.x, intialPos.y, center.z);
-		rock->Translate(-center);
-		rock->Translate(correction);
-		done = true;
-	}
-
-	u = u + 0.01;
-	float a = tan(theta * PI / 180);
-	float b = G / (2 * pow(Vo, 2) * pow(cos(theta * PI / 180), 2));
-	float dy = (a - 2 * b * u) * 0.01;
-	rock->Translate(-center);
-	rock->Translate(glm::vec3(-0.01f, dy, 0.0f));
-	rock->Translate(center);
 }
 
 void GameManager::GameLoop()
@@ -329,7 +315,6 @@ void GameManager::GameLoop()
 
 		//enable shader before setting uniforms
 		ourShader->use();
-		moveRock(rock, intialPos, 25.0f, 75.0f, 0.0f);
 		
 		// view/projection transformations
 		glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
@@ -344,6 +329,19 @@ void GameManager::GameLoop()
 		GameFloor->Draw(ourShader);
 		GameWall->Draw(ourShader);
 		GamePortal->Draw(ourShader);
+		rock->Draw(ourShader);
+		float playerHit = 0.0f;
+		for (int i = 0; i < EnemyList.size(); i++) {
+			if (GameWall->rayCast(EnemyList[i]->attack()))
+				playerHit += 1.0f;
+			if (GamePlayer->rayCast(EnemyList[i]->attack()))
+				playerHit += 5.0f;
+		}
+
+		if (!GamePlayer->reduceHealth(playerHit)) {
+			cout << "game over!!!" << endl;
+			return;
+		}
 
 		for (int i = 0; i < ObstaclesList.size(); i++)
 		{

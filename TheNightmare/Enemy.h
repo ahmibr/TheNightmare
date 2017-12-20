@@ -12,6 +12,9 @@ protected:
 	int HorizontalDistance;
 public:
 	Enemy();
+	virtual Ray attack()=0;
+	//void throwRock(GameObject* rock);
 	virtual ~Enemy()=0;
+
 };
 

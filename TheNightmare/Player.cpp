@@ -24,6 +24,18 @@ void Player::Move()
 
 }
 
+bool Player::reduceHealth(float hitPower)
+{
+	if (abs(hitPower - 0) <= EPSILON)
+		return true;
+
+	this->playerHealth -= hitPower;
+
+	if (playerHealth < 0 || abs(playerHealth - 0) <= EPSILON)
+		return false;
+	return true;
+}
+
 void Player::Shoot(glm::vec4 proj, glm::vec4 view, float mouseX, float mouseY) {
 
 }

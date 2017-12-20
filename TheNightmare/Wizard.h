@@ -12,6 +12,7 @@ class Wizard :public Enemy
 public:
 	static int GetNumberOfWizards();
 	Wizard();
+	virtual Ray attack();
 	static void LoadWizardModel();
 	void Draw(Shader*ourShader);
 	~Wizard();

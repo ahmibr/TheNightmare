@@ -21,6 +21,11 @@ Wizard::Wizard()
 	Enemy::InitalizeEnemyPosition();
 }
 
+Ray Wizard::attack()
+{
+	return Enemy::attack();
+}
+
 void Wizard::Move()
 {
 	if (FirstTime)

@@ -8,6 +8,7 @@ class GrimReaper : public Enemy
 public:
 	static int GetNumberOfGrims();
 	GrimReaper();
+	virtual Ray attack();
 	static void LoadGrimModel();
 	void Draw(Shader*ourShader);
 	~GrimReaper();

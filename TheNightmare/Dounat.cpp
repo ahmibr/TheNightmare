@@ -22,6 +22,11 @@ Dounat::Dounat()
 	//GameObject::Rotate(glm::vec3(0.0f, ObjectCenter.y, 0.0f), 90);
 }
 
+Ray Dounat::attack()
+{
+	return Enemy::attack();
+}
+
 void Dounat::Move()
 {
 	if (HorizontalDistance != 0)

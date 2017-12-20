@@ -16,9 +16,6 @@
 #include <time.h>
 #include "Allincludes.h"
 
-#define PI 3.141592653589793
-#define G 9.8
-
 class GameManager
 {
 	Player*GamePlayer;
@@ -27,16 +24,15 @@ class GameManager
 	Wall*GameWall;
 	Portal*GamePortal;
 	vector<Environment*>ObstaclesList;
+
 	vector<Enemy*> EnemyList;
 	int PreviousEnemy = 0, PrevPreviousEnemy = 1;
 	Shader *ourShader;
 	GLFWwindow* window;
-	bool done = false;
-	glm::vec3 intialPos;
 	Rocks *rock;
 	
 	int TimeLeft;
-	void moveRock(Rocks*& rock, glm::vec3 intialPos, float Vo, float theta, float fai);
+	//void moveRock(Rocks*& rock, glm::vec3 intialPos, float Vo, float theta);
 
 	// settings
 	const unsigned int SCR_WIDTH = 1366;
@@ -53,5 +49,6 @@ public:
 	void processInput(GLFWwindow *window);
 	void LoadAllModels(); 
 	void GenerateEnemies();
+	void GenerateRocks(int numRocks);
 };
 #endif
