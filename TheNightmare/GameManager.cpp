@@ -290,6 +290,7 @@ bool GameManager::Start()
 
 	//Set up Camera Position depending on GUN
 	/////////////////////
+	cout << "(" << GamePlayer->GetCenter().x << ", " << GamePlayer->GetCenter().y << ", " << GamePlayer->GetCenter().z << ")" << endl;
 	camera.SetCameraPosition(GamePlayer->GetCenter()+ CameraGunOffset);
 	//Declare camera moving space limits, Tree length
 	/////////////////////
@@ -351,6 +352,8 @@ void GameManager::GameLoop()
 			cout << "game over!!!" << endl;
 			return;
 		}
+
+		rock->CheckForHit(camera.Position);
 
 		for (int i = 0; i < ObstaclesList.size(); i++)
 		{

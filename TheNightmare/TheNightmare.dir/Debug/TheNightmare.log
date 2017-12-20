@@ -1,7 +1,7 @@
-﻿Build started 20/12/2017 06:25:44 ص.
+﻿Build started 20/12/2017 07:27:24 ص.
      1>Project "G:\graphics_project\TheNightmare\TheNightmare\TheNightmare.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /Od /Ob0 /Oy- /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"TheNightmare.dir\Debug\\" /Fd"TheNightmare.dir\Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt  /EHsc";"-std=c++11 GameManager.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /Od /Ob0 /Oy- /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"TheNightmare.dir\Debug\\" /Fd"TheNightmare.dir\Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt  /EHsc";"-std=c++11 Rocks.cpp
      1>cl : Command line warning D9002: ignoring unknown option '/EH;'
      1>cl : Command line warning D9002: ignoring unknown option '/EH-'
      1>cl : Command line warning D9002: ignoring unknown option '/EHt'
@@ -11,23 +11,14 @@
      1>cl : Command line warning D9002: ignoring unknown option '/EH+'
      1>cl : Command line warning D9002: ignoring unknown option '/EH1'
      1>cl : Command line warning D9002: ignoring unknown option '/EH1'
-         GameManager.cpp
-     1>G:\graphics_project\TheNightmare\include\learnopengl/shader_m.h(53): warning C4101: 'infoLog': unreferenced local variable
-     1>G:\graphics_project\TheNightmare\include\learnopengl/shader_m.h(52): warning C4101: 'success': unreferenced local variable
-     1>GameManager.cpp(18): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-     1>GameManager.cpp(48): warning C4018: '<': signed/unsigned mismatch
-     1>GameManager.cpp(91): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-     1>GameManager.cpp(188): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-     1>GameManager.cpp(189): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-     1>GameManager.cpp(193): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-     1>GameManager.cpp(194): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-     1>GameManager.cpp(196): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-     1>GameManager.cpp(197): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-     1>GameManager.cpp(206): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-     1>GameManager.cpp(312): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-     1>GameManager.cpp(343): warning C4018: '<': signed/unsigned mismatch
-     1>GameManager.cpp(355): warning C4018: '<': signed/unsigned mismatch
-     1>GameManager.cpp(362): warning C4018: '<': signed/unsigned mismatch
+         Rocks.cpp
+     1>G:\graphics_project\TheNightmare\include\learnopengl/shader.h(65): warning C4101: 'infoLog': unreferenced local variable
+     1>G:\graphics_project\TheNightmare\include\learnopengl/shader.h(64): warning C4101: 'success': unreferenced local variable
+     1>Rocks.cpp(44): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+     1>Rocks.cpp(45): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+     1>Rocks.cpp(46): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+     1>Rocks.cpp(47): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+     1>Rocks.cpp(60): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"G:\graphics_project\TheNightmare\Debug\TheNightmare.exe" /INCREMENTAL /NOLOGO glfw3.lib opengl32.lib assimp.lib STB_IMAGE.lib GLAD.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"G:\graphics_project\TheNightmare\Debug\TheNightmare.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"G:\graphics_project\TheNightmare\Debug\TheNightmare.lib" /MACHINE:X86 /SAFESEH  /machine:X86 TheNightmare.dir\Debug\Alien.obj
          TheNightmare.dir\Debug\Dounat.obj
@@ -54,4 +45,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:01.54
+Time Elapsed 00:00:02.06
