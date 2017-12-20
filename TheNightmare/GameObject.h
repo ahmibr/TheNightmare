@@ -3,6 +3,7 @@
 #define GO_H
 #include "../include/learnopengl/model.h"
 #define EPSILON 0.00001
+#define PI 3.141592653589793 //i defined it already in game object so you won't need to define it again
 //
 //enum objecttype {
 //	Sky, Tree, Tree, Gun, Tree, rock, Portal, Pika, Grim, Raiden, Donut, Tree, Wizard, EndofObjects
