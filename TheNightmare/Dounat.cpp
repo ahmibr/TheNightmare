@@ -8,6 +8,12 @@ int Dounat::GetNumberOfDounats()
 	return NumberOfDounats;
 }
 
+Ray Dounat::attack()
+{
+	return Enemy::attack();
+
+}
+
 Dounat::Dounat()
 {
 	NumberOfDounats++;
@@ -23,6 +29,7 @@ Dounat::Dounat()
 
 void Dounat::Move()
 {
+	glm::vec3 PreviousCenter = GetCenter();
 	if (HorizontalDistance != 0)
 	{
 		if (FirstTime && JmpTimes != 20)
@@ -36,25 +43,25 @@ void Dounat::Move()
 			if (Angle == 0)
 			{
 				JmpTimes = 1;
-				if (Direction == 0)
-					GameObject::Rotate(glm::vec3(0.0f, ObjectCenter.y, 0.0f), -90);
-				else
-					GameObject::Rotate(glm::vec3(0.0f, ObjectCenter.y, 0.0f), 90);
+				//if (Direction == 0)
+				///	GameObject::Rotate(glm::vec3(0.0f, ObjectCenter.y, 0.0f), -90);
+				//else
+				///GameObject::Rotate(glm::vec3(0.0f, ObjectCenter.y, 0.0f), 90);
 				Angle = 20;
 			}
 
 			if (Direction == 0)
-				GameObject::Translate(glm::vec3(-0.04f, 0.0f, 0.0f));
+				GameObject::Translate(glm::vec3(-0.0f, 0.0f, -0.04f));
 			else
-				GameObject::Translate(glm::vec3(0.04f, 0.0f, 0.0f));
+				GameObject::Translate(glm::vec3(0.0f, 0.0f, 0.04f));
 
 			HorizontalDistance--;
 			if (HorizontalDistance == 0)
 			{
-				if (Direction == 0)
-					GameObject::Rotate(glm::vec3(0.0f, ObjectCenter.y, 0.0f), 90);
+				//if (Direction == 0)
+				/*	GameObject::Rotate(glm::vec3(0.0f, ObjectCenter.y, 0.0f), 90);
 				else
-					GameObject::Rotate(glm::vec3(0.0f, ObjectCenter.y, 0.0f), -90);
+				GameObject::Rotate(glm::vec3(0.0f, ObjectCenter.y, 0.0f), -90);*/
 				Angle = 0;
 			}
 		}
@@ -63,7 +70,7 @@ void Dounat::Move()
 	{
 		if (Angle == 0)
 		{
-			GameObject::Rotate(glm::vec3(abs(ObjectCenter.x), 0.0f, 0.0f), -20);
+			//GameObject::Rotate(glm::vec3(abs(ObjectCenter.x), 0.0f, 0.0f), -20);
 			Angle = -20;
 		}
 		else
@@ -72,20 +79,25 @@ void Dounat::Move()
 			GameObject::Translate(glm::vec3(-0.02f, 0.0f, 0.0f));
 			if (JmpTimes == 0)
 			{
-				GameObject::Rotate(glm::vec3(abs(ObjectCenter.x), 0.0f, 0.0f), -2 * Angle);
+				/*GameObject::Rotate(glm::vec3(abs(ObjectCenter.x), 0.0f, 0.0f), -2 * Angle);*/
 				Angle = -Angle;
 				JmpTimes = 50;
 			}
 			JmpTimes--;
 		}
 	}
+	LastMove = GetCenter() - PreviousCenter;
 }
 
 void Dounat::Draw(Shader*ourShader)
 {
-	Dounat::Move();
 	ourShader->setMat4("model", ModelMatrix);
 	DounatModel->Draw(*ourShader);
+}
+
+float Dounat::GetRadius()
+{
+	return DounatModel->radius;
 }
 
 void Dounat::LoadDounatModel()

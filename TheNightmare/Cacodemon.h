@@ -7,7 +7,6 @@ class Cacodemon :public Enemy
 	int JmpTimes;
 	int MaxHeight;
 	bool FirstTime;
-	void Move();
 	static int NumberOfCacodemons;
 	int BlinkTime;
 public:
@@ -15,5 +14,8 @@ public:
 	Cacodemon();
 	static void LoadCacodemonModel();
 	void Draw(Shader*ourShader);
+	void Move();
+	float GetRadius();
+	virtual Ray attack();
 	~Cacodemon();
 };

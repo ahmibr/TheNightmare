@@ -19,3 +19,4 @@
 #include <mciapi.h>
 //these two headers are already included in the <Windows.h> header
 #pragma comment(lib, "Winmm.lib")
+#include <math.h>

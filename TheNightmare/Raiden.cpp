@@ -12,6 +12,13 @@ int Raiden::GetNumberOfRaidens()
 	return NumberOfRaidens;
 }
 
+
+Ray Raiden::attack()
+{
+	return Enemy::attack();
+
+}
+
 Raiden::Raiden()
 {
 	NumberOfRaidens++;
@@ -24,6 +31,7 @@ Raiden::Raiden()
 
 void Raiden::Move()
 {
+	glm::vec3 PreviousCenter = GetCenter();
 	if (HorizontalDistance != 0)
 	{
 		if (Direction == 0)
@@ -32,8 +40,8 @@ void Raiden::Move()
 			GameObject::Translate(glm::vec3(0.0f, 0.0f, 0.02f));
 		ArmModelMatrix = ModelMatrix;
 		HorizontalDistance--;
-		if (HorizontalDistance == 0)
-			Shooting = ShootingTime;
+		/*if (HorizontalDistance == 0)
+		Shooting = ShootingTime;*/
 	}
 	else
 	{
@@ -56,8 +64,9 @@ void Raiden::Move()
 			GameObject::Translate(glm::vec3(-0.1f, 0.0f, 0.0f));
 			ArmModelMatrix = ModelMatrix;
 		}
-		
+
 	}
+	LastMove = GetCenter() - PreviousCenter;
 }
 
 void Raiden::LoadRaidenModel()
@@ -67,11 +76,15 @@ void Raiden::LoadRaidenModel()
 
 void Raiden::Draw(Shader * ourShader)
 {
-	Raiden::Move();
 	ourShader->setMat4("model", ModelMatrix);
 	RaidenModel->meshes[1].Draw(*ourShader);
 	ourShader->setMat4("model", ArmModelMatrix);
 	RaidenModel->meshes[0].Draw(*ourShader);
+}
+
+float Raiden::GetRadius()
+{
+	return RaidenModel->radius;
 }
 
 

@@ -17,16 +17,28 @@ GrimReaper::GrimReaper()
 	Enemy::InitalizeEnemyPosition();
 }
 
+
+Ray GrimReaper::attack()
+{
+	return Enemy::attack();
+
+}
+
 void GrimReaper::Move()
 {
-		GameObject::Translate(glm::vec3(-0.05f, 0.0f, 0.0f));
+	GameObject::Translate(glm::vec3(-0.05f, 0.0f, 0.0f));
+	LastMove = glm::vec3(-0.05f, 0.0f, 0.0f);
 }
 
 void GrimReaper::Draw(Shader*ourShader)
 {
-	GrimReaper::Move();
 	ourShader->setMat4("model", ModelMatrix);
 	GrimModel->Draw(*ourShader);
+}
+
+float GrimReaper::GetRadius()
+{
+	return GrimModel->radius;
 }
 
 void GrimReaper::LoadGrimModel()

@@ -1,6 +1,7 @@
 #include "GameManager.h"
 
 Camera camera(glm::vec3(0, 10, 0)); //up in y front in x
+Player* GamePlayer;
 glm::vec3 CameraGunOffset = glm::vec3(0.0f, 0.25f, 0.0f);
 float lastX;
 float lastY;
@@ -38,13 +39,34 @@ void GameManager::processInput(GLFWwindow *window)
 	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
 	{
 		camera.ProcessKeyboard(LEFT, deltaTime);
-		GamePlayer->Translate(camera.Position - GamePlayer->GetCenter() - CameraGunOffset);
+		GamePlayer->Translate(glm::vec3(0, 0, camera.Position.z - GamePlayer->GetCenter().z - CameraGunOffset.z));
 	}
 
 	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
 	{
 		camera.ProcessKeyboard(RIGHT, deltaTime);
-		GamePlayer->Translate(camera.Position - GamePlayer->GetCenter() - CameraGunOffset);
+		GamePlayer->Translate(glm::vec3(0, 0, camera.Position.z - GamePlayer->GetCenter().z - CameraGunOffset.z));
+	}
+	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS && shootingDelay <= 0) {
+		shootingDelay = 100;
+		int topIndex = -1;
+		float topValue = 100.0f;
+		if (EnemyList.size() > 0) {
+			Ray bullet(camera.Position - glm::vec3(0, 5, 0), camera.Front);
+			for (int i = 0; i < EnemyList.size(); ++i) {
+
+				if (EnemyList[i]->rayCast(bullet)) {
+					if (EnemyList[i]->getMaxX() < topValue) {
+						topIndex = i;
+						topValue = EnemyList[i]->getMaxX();
+					}
+					/*EnemyList.erase(EnemyList.begin() + i);
+					--i;*/
+				}
+			}
+		}
+		if (topIndex != -1)
+			EnemyList.erase(EnemyList.begin() + topIndex);
 	}
 }
 
@@ -59,6 +81,7 @@ void GameManager::LoadAllModels()
 	MenusArray[1] = new Model("../resources/objects/Menus/Loading.obj");
 	MenusArray[2] = new Model("../resources/objects/Menus/YouWin.obj");
 	MenusArray[3] = new Model("../resources/objects/Menus/GameOver.obj");
+	Rocks::LoadRocksModel();
 	Tree::LoadTreeModel();
 	Rocks::LoadRocksModel();
 
@@ -87,6 +110,17 @@ void GameManager::LoadAllModels()
 
 	GenerateObstacles();
 
+}
+
+void GenerateRocks(int numRocks) {
+	srand(time(NULL));
+	float r;
+
+	for (int i = 0; i < numRocks; i++)
+	{
+		r = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+
+	}
 }
 
 void GameManager::GenerateEnemies()
@@ -211,8 +245,8 @@ void GameManager::GenerateEnemies()
 
 		}
 		NumberOfTotalEnemies++;
-		ObstaclesList.erase(ObstaclesList.begin()+14);
-		GenerateObstacles();
+		//ObstaclesList.erase(ObstaclesList.begin() + 14);
+		//GenerateObstacles();
 	}
 
 }
@@ -222,6 +256,7 @@ void GameManager::GenerateObstacles()
 	float x, z, MaxX, MinX, MinZ, MaxZ;
 	while (ObstaclesList.size() != 22)
 	{
+		cout << "Generate" << endl;
 		x = (rand() % (int)MaxAvaliableSpace.x)*((rand() % 2) ? 1 : -1);
 		z = (rand() % (int)MaxAvaliableSpace.z)*((rand() % 2) ? 1 : -1);
 		int i = 0;
@@ -231,7 +266,7 @@ void GameManager::GenerateObstacles()
 			MinX = EnemyList[i]->GetCenter().x - (EnemyList[i]->GetMaxVertex().x - EnemyList[i]->GetMinVertex().x) / 2.0f;
 			MaxZ = EnemyList[i]->GetCenter().z + (EnemyList[i]->GetMaxVertex().z - EnemyList[i]->GetMinVertex().z) / 2.0f;
 			MinZ = EnemyList[i]->GetCenter().z - (EnemyList[i]->GetMaxVertex().z - EnemyList[i]->GetMinVertex().z) / 2.0f;
-			if (!((x > MinX || x<MaxX) &&( z>MinZ || z < MaxZ)))
+			if (!((x > MinX || x<MaxX) && (z>MinZ || z < MaxZ)))
 				break;
 		}
 		int j = 12;
@@ -252,6 +287,7 @@ void GameManager::GenerateObstacles()
 			ObstaclesList[ObstaclesList.size() - 1]->Translate(glm::vec3(x, 0, z));
 		}
 	}
+	cout << "New "<<ObstaclesList.size() << endl;
 }
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes
@@ -281,7 +317,10 @@ void GameManager::mouse_callback(GLFWwindow* window, double xpos, double ypos)
 	lastY = ypos;
 
 	if (Menus == 0)
+	{
+		GamePlayer->moveWithCursor(camera.GetViewMatrix());
 		camera.ProcessMouseMovement(xoffset, yoffset);
+	}
 }
 
 // glfw: whenever the mouse scroll wheel scrolls, this callback is called
@@ -346,6 +385,8 @@ bool GameManager::Start()
 	// load models
 	LoadAllModels();
 
+	rock = new Rocks();
+	rock->Translate(glm::vec3(0.0f, 0.0f, 0.0f));
 	//Set up Camera Position depending on GUN
 	/////////////////////
 	camera.SetCameraPosition(GamePlayer->GetCenter() + CameraGunOffset);
@@ -353,12 +394,11 @@ bool GameManager::Start()
 	/////////////////////
 	camera.MinSpace = GameWall->GetMinVertex().z + 1;
 	camera.MaxSpace = GameWall->GetMaxVertex().z - 1;
-
 	ourShader->use();
 	ourShader->setInt("material.diffuse", 0);
 	ourShader->setInt("material.specular", 1);
 
-
+	//rock->throwRock(camera.Position);
 	return true;
 
 }
@@ -386,10 +426,11 @@ void GameManager::GameLoop()
 		//enable shader before setting uniforms
 		ourShader->use();
 
-
+		shootingDelay--;
 		SetLighting();
 
 		// view/projection transformations
+		if (GamePlayer->Dead())(camera.resetCamera());
 		glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
 		glm::mat4 view = camera.GetViewMatrix();
 		ourShader->setMat4("projection", projection);
@@ -403,6 +444,7 @@ void GameManager::GameLoop()
 		{
 			ourShader->setInt("la", 1);
 			glm::mat4 modelmatrix;
+			modelmatrix = glm::translate(modelmatrix, glm::vec3(0.3f, 0.0f, 0.0f));
 			ourShader->setMat4("model", modelmatrix);
 			if (Menus >= 700)
 				MenusArray[0]->Draw(*ourShader);
@@ -416,7 +458,7 @@ void GameManager::GameLoop()
 
 			if (glfwGetKey(window, GLFW_KEY_ENTER) == GLFW_PRESS)
 			{
-				mciSendString("stop mp3", NULL, 0, NULL);
+				//mciSendString("stop mp3", NULL, 0, NULL);
 				Menus--;
 			}
 			else
@@ -463,19 +505,49 @@ void GameManager::GameLoop()
 			GameFloor->Draw(ourShader);
 			GameWall->Draw(ourShader);
 			GamePortal->Draw(ourShader);
+			//rock->Draw(ourShader);
+			float playerHit = 0.0f;
+			for (int i = 0; i < EnemyList.size(); i++) {
+				if (GameWall->rayCast(EnemyList[i]->attack()))
+					playerHit += 0.01f;
+				if (GamePlayer->rayCast(EnemyList[i]->attack()))
+					playerHit += 0.1f;
+			}
+			
+			//if (!GamePlayer->reduceHealth(playerHit)) {
+			//	cout << "game over!!!" << endl;
+				//return;
+			//}
 
 			LightArray[0].Draw(ourShader);
 			LightArray[1].Draw(ourShader);
 			LightArray[2].Draw(ourShader);
 
+			rock->CheckForHit(camera.Position);
+
 			for (int i = 0; i < ObstaclesList.size(); i++)
+			{
 				ObstaclesList[i]->Draw(ourShader);
+				if (ObstaclesList[i]->CheckForHit(camera.Position))
+				{
+					GamePlayer->reducehealth(40);
+					ObstaclesList.erase(ObstaclesList.begin() + i);
+					cout << ObstaclesList.size() << endl;
+					GenerateObstacles();
+				}
+
+			}
 
 			if (NumberOfTotalEnemies < 20)
 				GenerateEnemies();
 
 			for (int i = 0; i < EnemyList.size(); i++)
+			{
+				EnemyList[i]->Move();
 				EnemyList[i]->Draw(ourShader);
+				CollisionDetection(EnemyList[i], i);
+
+			}
 		}
 
 		glfwSwapBuffers(window);
@@ -537,6 +609,86 @@ void GameManager::SetLighting()
 
 
 }
+
+void  GameManager::CollisionDetection(Enemy* e, int index)
+{
+	if (!(e->GetLastMove() == glm::vec3(0)))
+	{
+		bool collide = false;
+		for (int i = 0; i < EnemyList.size(); i++)
+		{
+			if (Collide(e, EnemyList[i]) && i != index&& e->GetCenter().x<35)
+			{
+				collide = true;
+				cout << "collided with enemy, enemy " << endl;
+				break;
+			}
+		}
+
+		if (!collide)
+		{
+			for (int i = 12; i < ObstaclesList.size(); i++)
+			{
+				if (Collide(e, ObstaclesList[i]))
+				{
+					collide = true;
+					//ObstaclesList.throwatenemy();
+					//ObstaclesList.erase(ObstaclesList.begin() + i);
+					e->StartShooting();
+					ObstaclesList[i]->throwRock(camera.Position);
+					cout << "collided with rock, rock " << i << endl;
+
+					break;
+				}
+			}
+		}
+		if (!collide) //check with the wall
+		{
+			if (e->GetCenter().x <= (GameWall->GetCenter().x + (abs(GameWall->GetMaxVertex().x - GameWall->GetMinVertex().x) * 4)))
+			{
+				collide = true;
+				GamePlayer->reducehealth(0.5);
+				cout << "Wall" << endl;
+			}
+
+		}
+
+		if (collide)
+			e->Translate(-e->GetLastMove());
+
+
+	}
+}
+
+
+
+bool GameManager::Collide(GameObject* e1, GameObject* e2)
+{
+	//glm::vec3 diff = e1->GetCenter() - e2->GetCenter();
+	//float m = sqrt(pow(diff.x, 2) + pow(diff.y, 2) + pow(diff.z, 2));
+	//float r = m - (e1->GetRadius() + e2->GetRadius());
+	//return r < 0;
+	float MinX, MaxX, MinZ, MaxZ, MaxY, MinY;
+	MaxX = /*e2->GetCenter().x + (e2->GetMaxVertex().x - e2->GetMinVertex().x) / 2.0f*/e2->GetMaxVertex().x;
+	MinX = /*e2->GetCenter().x - (e2->GetMaxVertex().x - e2->GetMinVertex().x) / 2.0f*/e2->GetMinVertex().x;
+	MaxZ = /*e2->GetCenter().z + (e2->GetMaxVertex().z - e2->GetMinVertex().z) / 2.0f*/e2->GetMaxVertex().z;
+	MinZ = /*e2->GetCenter().z - (e2->GetMaxVertex().z - e2->GetMinVertex().z) / 2.0f*/e2->GetMinVertex().z;
+	MaxY = /*e2->GetCenter().z + (e2->GetMaxVertex().z - e2->GetMinVertex().z) / 2.0f*/e2->GetMaxVertex().y;
+	MinY = /*e2->GetCenter().z - (e2->GetMaxVertex().z - e2->GetMinVertex().z) / 2.0f*/e2->GetMinVertex().y;
+
+	//bool checkcenterinboundriesofother = (e1->GetCenter().x > MinX && e1->GetCenter().x < MaxX) && (e1->GetCenter().z > MinZ && e1->GetCenter().z < MaxZ);
+	//bool partofenemyinside =((e1->GetMaxVertex().z > MinZ && e1->GetMaxVertex().z < MaxZ) || ((e1->GetMinVertex().z > MinZ && e1->GetMinVertex().z < MaxZ) ))&& ((e1->GetMaxVertex().x > MinX && e1->GetMaxVertex().x < MaxX) || ((e1->GetMinVertex().x > MinX && e1->GetMinVertex().x < MaxX)));
+	bool checkoverenemy = (((e1->GetCenter().x - e1->GetLastMove().x) < MinX) && ((e1->GetCenter().x) > MaxX) && (((e1->GetMaxVertex().z > MinZ || e1->GetMaxVertex().z < MaxZ) || ((e1->GetMinVertex().z > MinZ || e1->GetMinVertex().z < MaxZ)))));
+	//return ((/*checkcenterinboundriesofother||*/checkoverenemy|| partofenemyinside)) && (e1->GetCenter().y < MaxY) && (e1->GetCenter().y > MinY);
+
+
+	glm::vec3 diff = glm::vec3(abs(e1->GetCenter().x - e2->GetCenter().x), abs(e1->GetCenter().y - e2->GetCenter().y), abs(e1->GetCenter().z - e2->GetCenter().z));
+	glm::vec3 sumofcenters = glm::vec3(abs(e1->GetCenter().x - e1->GetMaxVertex().x) + abs(e2->GetCenter().x - e2->GetMaxVertex().x), abs(e1->GetCenter().y - e1->GetMaxVertex().y) + abs(e2->GetCenter().y - e2->GetMaxVertex().y), abs(e1->GetCenter().z - e1->GetMaxVertex().z) + abs(e2->GetCenter().z - e2->GetMaxVertex().z));
+
+	return ((diff.x <= sumofcenters.x && diff.z <= sumofcenters.z && diff.y <= sumofcenters.y) /*|| checkoverenemy*/);
+}
+
+
 
 GameManager::~GameManager()
 {

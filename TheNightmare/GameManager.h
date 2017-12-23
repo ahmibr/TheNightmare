@@ -18,7 +18,6 @@
 
 class GameManager
 {
-	Player*GamePlayer;
 	Sky*GameSky;
 	Floor*GameFloor;
 	Wall*GameWall;
@@ -28,13 +27,15 @@ class GameManager
 	glm::vec3 MaxAvaliableSpace;
 	vector<Enemy*> EnemyList;
 	int NumberOfTotalEnemies;
+	int shootingDelay = 0;
 	int PreviousEnemy = 0, PrevPreviousEnemy = 1;
 	Shader *ourShader;
 	GLFWwindow* window;
 	static int Menus;
 	Model*MenusArray[4];
 	Light*LightArray;
-
+	Rocks *rock;
+	void GenerateRocks(int numRocks);
 	int TimeLeft;
 
 	// settings
@@ -55,5 +56,8 @@ public:
 	void SetLighting();
 	void GenerateEnemies();
 	void GenerateObstacles();
+	void CollisionDetection(Enemy* e, int index);
+	bool Collide(GameObject*, GameObject*);
+
 };
 #endif

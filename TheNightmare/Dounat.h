@@ -14,6 +14,8 @@ public:
 	Dounat();
 	static void LoadDounatModel();
 	void Draw(Shader*ourShader);
+	virtual Ray attack();
+	float GetRadius();
 	~Dounat();
 };
 

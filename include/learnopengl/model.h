@@ -33,7 +33,7 @@ public:
 	bool gammaCorrection;
 	glm::vec3 MaxVertex = glm::vec3(-100, -100, -100);
 	glm::vec3 MinVertex = glm::vec3(100, 100, 100);
-
+	float radius;
 	//unsigned int TextureFromFile(const char *path, const string &directory, bool gamma = false);
 
 	unsigned int TextureFromFile(const char *path, const string &directory, bool gamma = false)
@@ -183,6 +183,9 @@ private:
 			}
 			vertices.push_back(vertex);
 		}
+		glm::vec3 diff = (MinVertex - MaxVertex) / glm::vec3(2);
+		radius = sqrt(pow(diff.x, 2) + pow(diff.y, 2) + pow(diff.z, 2));
+
 		// now wak through each of the mesh's faces (a face is a mesh its triangle) and retrieve the corresponding vertex indices.
 		for (unsigned int i = 0; i < mesh->mNumFaces; i++)
 		{

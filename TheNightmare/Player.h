@@ -7,9 +7,13 @@ class Player : public GameObject
 	glm::vec3 InitPos;
 public:
 	Player();
+	void Translate(glm::vec3 tran);
+	void moveWithCursor(const glm::mat4& LookAt);
 	void Draw(Shader*ourShader);
 	void Move();
+	float GetRadius();
 	bool Dead();
+	void reducehealth(float dec);
 	~Player();
 };
 

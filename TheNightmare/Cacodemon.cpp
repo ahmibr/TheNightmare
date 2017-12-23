@@ -8,6 +8,12 @@ int Cacodemon::GetNumberOfCacodemons()
 	return NumberOfCacodemons;
 }
 
+Ray Cacodemon::attack()
+{
+	return Enemy::attack();
+
+}
+
 Cacodemon::Cacodemon()
 {
 	NumberOfCacodemons++;
@@ -24,6 +30,7 @@ Cacodemon::Cacodemon()
 
 void Cacodemon::Move()
 {
+	glm::vec3 PreviousCenter = GetCenter();
 	if (FirstTime)
 	{
 		GameObject::Translate(glm::vec3(0.0f, 0.03f, 0));
@@ -31,10 +38,10 @@ void Cacodemon::Move()
 		if (JmpTimes == MaxHeight)
 		{
 			JmpTimes = 0;
-			if (Direction == 0)
-				GameObject::Rotate(glm::vec3(0.0f, ObjectCenter.y, 0.0f), -90);
+			/*		if (Direction == 0)
+			GameObject::Rotate(glm::vec3(0.0f, ObjectCenter.y, 0.0f), -90);
 			else
-				GameObject::Rotate(glm::vec3(0.0f, ObjectCenter.y, 0.0f), 90);
+			GameObject::Rotate(glm::vec3(0.0f, ObjectCenter.y, 0.0f), 90);*/
 			FirstTime = false;
 		}
 	}
@@ -45,18 +52,18 @@ void Cacodemon::Move()
 			if (UpD)
 			{
 				if (Direction == 0)
-					GameObject::Translate(glm::vec3(0.02f, 0.01f, 0.0f));
+					GameObject::Translate(glm::vec3(0.0f, 0.01f, 0.02f));
 				else
-					GameObject::Translate(glm::vec3(-0.02f, 0.01f, 0.0f));
+					GameObject::Translate(glm::vec3(-0.0f, 0.01f, -0.02f));
 				HorizontalDistance--;
 				JmpTimes++;
 			}
 			else
 			{
 				if (Direction == 0)
-					GameObject::Translate(glm::vec3(0.02f, -0.01f, 0.0f));
+					GameObject::Translate(glm::vec3(0.0f, -0.01f, 0.02f));
 				else
-					GameObject::Translate(glm::vec3(-0.02f, -0.01f, 0.0f));
+					GameObject::Translate(glm::vec3(-0.0f, -0.01f, -0.02f));
 				HorizontalDistance--;
 
 				JmpTimes++;
@@ -71,10 +78,10 @@ void Cacodemon::Move()
 		{
 			if (HorizontalDistance == 0)
 			{
-				if (Direction == 0)
-					GameObject::Rotate(glm::vec3(0.0f, ObjectCenter.y, 0.0f), 90);
+				/*	if (Direction == 0)
+				GameObject::Rotate(glm::vec3(0.0f, ObjectCenter.y, 0.0f), 90);
 				else
-					GameObject::Rotate(glm::vec3(0.0f, ObjectCenter.y, 0.0f), -90);
+				GameObject::Rotate(glm::vec3(0.0f, ObjectCenter.y, 0.0f), -90);*/
 				HorizontalDistance = -1;
 			}
 
@@ -97,11 +104,12 @@ void Cacodemon::Move()
 
 		}
 	}
+
+	LastMove = GetCenter() - PreviousCenter;
 }
 
 void Cacodemon::Draw(Shader*ourShader)
 {
-	Cacodemon::Move();
 	ourShader->setMat4("model", ModelMatrix);
 	CacodemonModel->meshes[1].Draw(*ourShader);
 	if (BlinkTime == 0)
@@ -110,6 +118,11 @@ void Cacodemon::Draw(Shader*ourShader)
 		CacodemonModel->meshes[0].Draw(*ourShader);
 
 	BlinkTime--;
+}
+
+float Cacodemon::GetRadius()
+{
+	return CacodemonModel->radius;
 }
 
 void Cacodemon::LoadCacodemonModel()
